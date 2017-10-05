@@ -48,11 +48,11 @@ public:
 	 		 This will depend on batterry current
 	 *@param pv_curr batterry Enery value is measured by INA module 
 	/*
- 	hiệu chỉnh lại dải đo cảm biến
+ 	Adjust measurement range
 	*/
 	void Calibration();
 	/*
- 	Hàm cập nhật giá trị đo từ cảm biến vào đối tượng
+ 	Reading voltage value and current value from INA module
 	*/
 	void Scan();
 	float getBattVolt();
