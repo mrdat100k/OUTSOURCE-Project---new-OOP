@@ -21,7 +21,8 @@ int main() {
     /*hiển thị logo watershed ra màn hình*/
     lcdcontroller.showLogo();
     wait(3);
-    while(1) {
+    while(true) 
+    {
         // put your main code here, to run repeatedly:
         /*quét giá trị đo được từ cảm biến*/
         ina_reader.Scan();
