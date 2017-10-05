@@ -24,6 +24,9 @@ public:
     {
         lcd_object_ptr = pointer;
     }
+    /*
+    hiển thị logo
+    */
     void showLogo();
 
     void setPVVolt(float value);
