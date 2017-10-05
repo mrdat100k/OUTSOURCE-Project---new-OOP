@@ -1,7 +1,8 @@
 /*!
  * \file LCDController.h
  * \Lớp đối tượng màn hình
- *
+ * \Lớp đối tượng quản lý các thông tin hiển thị trên màn hình
+ * \Chia màn hình hiển thị thành 3 menu
  * \author
  *
  * \date October 2017
@@ -16,11 +17,11 @@ class LCDController
 {
 public:
     LCDController(Adafruit_SSD1306_I2c *pointer):
-    pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
-		battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
-		second(0), minute(0), hour(0),
-		cursor_pos_col{ 0, 45, 78 },
-		cursor_pos_row{ 18, 30, 42, 54 }
+        pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
+        battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
+        second(0), minute(0), hour(0),
+	    cursor_pos_col{ 0, 45, 78 },
+        cursor_pos_row{ 18, 30, 42, 54 }
     {
         lcd_object_ptr = pointer;
     }
@@ -66,9 +67,9 @@ private:
 
 void LCDController::showLogo()
 {
-  lcd_object_ptr -> clearDisplay();
-  lcd_object_ptr -> drawBitmap(0, 6, watershed_logo_data, 128, 48, WHITE);
-  lcd_object_ptr -> display();
+    lcd_object_ptr -> clearDisplay();
+    lcd_object_ptr -> drawBitmap(0, 6, watershed_logo_data, 128, 48, WHITE);
+    lcd_object_ptr -> display();
 }
 void LCDController::setPVVolt(float value)
 {
@@ -155,7 +156,7 @@ void LCDController::updateScreen(uint8_t screen_index)
             writeAtPosition(11, buff);
             sprintf(buff, "%02d:%02d:%02d", hour, minute, second);
             writeAtPosition(12, buff);
-              break;
+            break;
         }
         case(2) : {
             writeAtPosition(0, "Battery Charge Info");
@@ -182,7 +183,7 @@ void LCDController::updateScreen(uint8_t screen_index)
             sprintf(buff, "%3.1fWh", battery_energy);
             writeAtPosition(11, buff);
             break;
-          }
+        }
         default:
             break;
 }
