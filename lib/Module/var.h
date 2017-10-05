@@ -32,10 +32,4 @@ I2CPreInit g_I2C_object(I2C_SDA, I2C_SCL);
 Adafruit_SSD1306_I2c g_lcd_object(g_I2C_object, NC);
 INA219 g_battery_measure_object(I2C_SDA, I2C_SCL, INA219_measure_battery_addr);
 INA219 g_pv_measure_object(I2C_SDA, I2C_SCL, INA219_measure_pv_addr);
-InterruptIn g_set_button(SET_BUTTON_PIN);
-InterruptIn g_select_button(SELECT_BUTTON_PIN);
-InterruptIn g_inverter_on(INVERTER_ON_PIN);
-RTC_Timer g_rtc_timer;
-uint8_t g_menu_index;
-Timeout g_timeout;
 #endif /*_VAR_H_*/

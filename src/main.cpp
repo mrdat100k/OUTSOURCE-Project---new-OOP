@@ -4,18 +4,26 @@
 #include <INAReader.h>
 #include <RTCTimer.h>
 #include <KeyboardController.h>
-LCDController test(&g_lcd_object);
+LCDController lcdcontroller(&g_lcd_object);
 INAReader ina_reader(&g_battery_measure_object, &g_pv_measure_object);
-KeyboardController keyboard(&g_select_button, &g_set_button, &g_inverter_on);
+KeyboardController keyboard(SELECT_BUTTON_PIN, SET_BUTTON_PIN, INVERTER_ON_PIN);
+RTC_Timer rtc_timer;
 int main() {
-  wait(2);
 
     // put your setup code here, to run once:
-//lcdcontroller.showLogo(watershed_logo_data);
-test.showLogo();
-wait(5);
+    lcdcontroller.showLogo();
+    wait(3);
     while(1) {
         // put your main code here, to run repeatedly:
-        test.updateScreen(g_menu_index);
+        ina_reader.Scan();
+        rtc_timer.Update();
+        lcdcontroller.setBattVolt(ina_reader.getBattVolt());
+        lcdcontroller.setBattCurr(ina_reader.getBattCurr());
+        lcdcontroller.setBattPower(ina_reader.getBattPower());
+        lcdcontroller.setPVVolt(ina_reader.getPVVolt());
+        lcdcontroller.setPVCurr(ina_reader.getPVCurr());
+        lcdcontroller.setPVPower(ina_reader.getPVPower());
+        lcdcontroller.setTime(rtc_timer.GetHour(), rtc_timer.GetMinute(), rtc_timer.GetSecond());
+        lcdcontroller.updateScreen(keyboard.menu_index);
     }
 }

@@ -1,47 +1,81 @@
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
 
-#include <var.h>
-static void attimeout();
-static void OnSelectButtonPress_fall_isr();
-static void OnSetButtonPress_fall_isr();
-static void OnSetButtonPress_rise_isr();
-static void OnInverterOnPress_fall_isr();
+#include <mbed.h>
+
 class KeyboardController
 {
 public:
-    KeyboardController(InterruptIn* _select_button_ptr, InterruptIn* _set_button_ptr, InterruptIn* _inverter_on_ptr)
+    uint8_t menu_index;
+    bool timerOn;
+    /*Constructer*/
+    KeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):
+    select_button(_SELECT_PIN),
+    set_button(_SET_PIN),
+    inverter_on(_INVERTERON_PIN)
     {
-        select_button_ptr = _set_button_ptr;
-        set_button_ptr = _set_button_ptr;
-        inverter_on_ptr = _inverter_on_ptr;
         Init();
     }
 private:
-    InterruptIn* select_button_ptr;
-    InterruptIn* set_button_ptr;
-    InterruptIn* inverter_on_ptr;
+    InterruptIn select_button;
+    InterruptIn set_button;
+    InterruptIn inverter_on;
+    Timeout time_out;
+
     void Init();
+    void attimeout();
+    void OnsetButtonLongPress();
+    void OnSelectButtonPress_fall_isr();
+    void OnSetButtonPress_fall_isr();
+    void OnSetButtonPress_rise_isr();
+    void OnInverterOnPress_fall_isr();
 };
 void KeyboardController::Init()
 {
-    select_button_ptr -> fall(&OnSelectButtonPress_fall_isr);
+    select_button.fall(callback(this, &KeyboardController::OnSelectButtonPress_fall_isr));
+    set_button.fall(callback(this, &KeyboardController::OnSetButtonPress_fall_isr));
+    set_button.rise(callback(this, &KeyboardController::OnSetButtonPress_rise_isr));
 }
-void attimeout()
+void KeyboardController::attimeout()
 {
-    g_menu_index = 0;
+    menu_index = 0;
 }
-void OnSelectButtonPress_fall_isr()
+void KeyboardController::OnSelectButtonPress_fall_isr()
 {
-    g_select_button.disable_irq();
-    g_timeout.attach(&attimeout, 15);
-    wait_ms(20);
-    g_menu_index++;
-    if (g_menu_index >= 3)
+    select_button.disable_irq();
+    time_out.attach(callback(this, &KeyboardController::attimeout), 15);
+    wait_ms(50);
+    menu_index++;
+    if (menu_index >= 3)
     {
-    		g_menu_index = 0;
+    		menu_index = 0;
     }
 
-    g_select_button.enable_irq();
+    select_button.enable_irq();
 }
+void KeyboardController::OnSetButtonPress_fall_isr()
+{
+    set_button.disable_irq();
+    if(1 == menu_index || 2 == menu_index)
+    {
+        timerOn = !timerOn;
+        time_out.attach(callback(this, &KeyboardController::OnsetButtonLongPress), 2);
+    }
+    set_button.enable_irq();
+}
+void KeyboardController::OnSetButtonPress_rise_isr()
+{
+    set_button.disable_irq();
+    wait_ms(50);
+    if(1 == menu_index || 2 == menu_index)
+    {
+        time_out.attach(callback(this, &KeyboardController::attimeout), 15);
+    }
+    set_button.enable_irq();
+}
+void KeyboardController::OnsetButtonLongPress()
+{
+    set_time(0);
+}
+
 #endif /*_KEYBOARD_H_*/

@@ -32,14 +32,11 @@ public:
 		return timer_state;
 	}
 	void Update(){
-		if (timer_state)
-		{
 			/* Update timer*/
 			seconds = time(NULL); /*TODO: bo sung header cho ham time */
 			second = seconds % 60;
 			minute = seconds % 3600 / 60;
 			hour = seconds % 86400 / 3600;
-		}
 	}
 
 	int GetSecond(){

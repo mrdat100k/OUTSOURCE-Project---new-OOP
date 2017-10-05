@@ -9,7 +9,7 @@ public:
     pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
 		battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
 		second(0), minute(0), hour(0),
-		cursor_pos_col{ 0, 53, 86 },
+		cursor_pos_col{ 0, 45, 78 },
 		cursor_pos_row{ 18, 30, 42, 54 }
     {
         lcd_object_ptr = pointer;
@@ -105,14 +105,15 @@ void LCDController::updateScreen(uint8_t screen_index)
         case(0) : {
 
             //TODO: viet not
-            writeAtPosition(0, "MENU 1");
-            writeAtPosition(1, "1");
-            writeAtPosition(2, "2");
-            writeAtPosition(3, "3");
-            writeAtPosition(4, "4");
-            writeAtPosition(5, "5");
+            writeAtPosition(0, "MAIN MENU");
+            writeAtPosition(1, "Charge");
+            writeAtPosition(2, "Yes");
+            writeAtPosition(3, "DC");
+            writeAtPosition(4, "Battery");
+            sprintf(buff, "%2.1fV ", battery_volt/1000);
+            writeAtPosition(5, buff);
             writeAtPosition(6, "6");
-            writeAtPosition(7, "7");
+            writeAtPosition(7, "AC On");
             writeAtPosition(8, "8");
             writeAtPosition(9, "9");
             writeAtPosition(10, "10");
@@ -122,25 +123,30 @@ void LCDController::updateScreen(uint8_t screen_index)
         }
         case(1) : {
             //TODO: viet not
-            writeAtPosition(0, "MENU 2");
-            writeAtPosition(1, "1");
-            writeAtPosition(2, "2");
+            writeAtPosition(0, "PV Charge Info");
+            writeAtPosition(1, "PV Volt");
+            sprintf(buff, "%2.1f V ", pv_volt/1000);
+            writeAtPosition(2, buff);
             writeAtPosition(3, "3");
-            writeAtPosition(4, "4");
-            writeAtPosition(5, "5");
+            writeAtPosition(4, "PV Curr");
+            sprintf(buff, "%2.1fmA ", pv_curr);
+            writeAtPosition(5, buff);
             writeAtPosition(6, "6");
-            writeAtPosition(7, "7");
-            writeAtPosition(8, "8");
+            writeAtPosition(7, "Power");
+            sprintf(buff, "%2.1fW ", pv_power);
+            writeAtPosition(8, buff);
             writeAtPosition(9, "9");
-            writeAtPosition(10, "10");
-            writeAtPosition(11, "11");
-            writeAtPosition(12, "12");
+            writeAtPosition(10, "Energy");
+            sprintf(buff, "%2.1fWh ", pv_energy);
+            writeAtPosition(11, buff);
+            sprintf(buff, "%02d:%02d:%02d", hour, minute, second);
+            writeAtPosition(12, buff);
               break;
         }
         case(2) : {
             writeAtPosition(0, "Battery Charge Info");
-            writeAtPosition(1, "Bat Voltage");
-            writeAtPosition(4, "Bat Current");
+            writeAtPosition(1, "Bat Volt");
+            writeAtPosition(4, "Bat Curr");
             writeAtPosition(7, "Power");
             writeAtPosition(10, "Energy");
             /* Update timer*/
@@ -151,15 +157,15 @@ void LCDController::updateScreen(uint8_t screen_index)
             writeAtPosition(5, buff);
 
             /* Update battery voltage*/
-            sprintf(buff, "%2.1f V ", battery_volt);
+            sprintf(buff, "%2.1f V ", battery_volt/1000);
             writeAtPosition(2, buff);
 
             /* Update battery power*/
             sprintf(buff, "%2.1fW ", battery_power);
             writeAtPosition(8, buff);
 
-      /* Update battery energy */
-            sprintf(buff, "%3.1fWh ", battery_energy);
+            /* Update battery energy */
+            sprintf(buff, "%3.1fWh", battery_energy);
             writeAtPosition(11, buff);
             break;
           }
