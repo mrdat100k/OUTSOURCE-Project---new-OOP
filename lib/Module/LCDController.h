@@ -27,7 +27,7 @@ public:
         pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
         battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
         second(0), minute(0), hour(0),
-	    cursor_pos_col{ 0, 45, 78 },
+	cursor_pos_col{ 0, 45, 78 },
         cursor_pos_row{ 18, 30, 42, 54 }
     {
         lcd_object_ptr = pointer;
@@ -69,51 +69,127 @@ private:
     uint16_t cursor_pos_col[3], cursor_pos_row[4];
     void writeAtPosition(uint8_t pos, const char* data);
 };
-
+    //************************************
+    // Method:    LCDController::showLogo
+    // Description:    showing a specific logo on screen
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::showLogo()
 {
     lcd_object_ptr -> clearDisplay();
     lcd_object_ptr -> drawBitmap(0, 6, watershed_logo_data, 128, 48, WHITE);
     lcd_object_ptr -> display();
 }
+    //************************************
+    // Method:    LCDController::setPVVolt
+    // Description:    updating PV voltage value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setPVVolt(float value)
 {
     pv_volt = value;
 }
+    //************************************
+    // Method:    LCDController::setPVCurr
+    // Description:    updating PV current value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setPVCurr(float value)
 {
     pv_curr = value;
 }
+    //************************************
+    // Method:    LCDController::setPVPower
+    // Description:    updating PV power value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setPVPower(float value)
 {
     pv_power = value;
 }
+    //************************************
+    // Method:    LCDController::setPVEnergy
+    // Description:    updating PV energy value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setPVEnergy(float value)
 {
     pv_energy = value;
 }
+    //************************************
+    // Method:    LCDController::setBattVolt
+    // Description:    updating battery voltage value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setBattVolt(float value)
 {
     battery_volt = value;
 }
+    //************************************
+    // Method:    LCDController::setBattCurr
+    // Description:    updating battery current value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setBattCurr(float value)
 {
     battery_curr = value;
 }
+    //************************************
+    // Method:    LCDController::setBattPower
+    // Description:    updating battery power value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setBattPower(float value)
 {
     battery_power = value;
 }
+    //************************************
+    // Method:    LCDController::setBattEnergy
+    // Description:    updating battery energy value to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setBattEnergy(float value)
 {
     battery_energy = value;
 }
+    //************************************
+    // Method:    LCDController::setTime
+    // Description:    updating time to display
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::setTime(uint8_t _hour, uint8_t _minute, uint8_t _second)
 {
     hour = _hour;
     minute = _minute;
     second = _second;
 }
+    //************************************
+    // Method:    LCDController::updateScreen
+    // Description:    change menu screen 
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::updateScreen(uint8_t screen_index)
 {
     char buff[12]; /*Data buffer*/
@@ -191,10 +267,17 @@ void LCDController::updateScreen(uint8_t screen_index)
         }
         default:
             break;
-}
+    }
 
     lcd_object_ptr -> display();
 }
+   //************************************
+    // Method:    LCDController::writeAtPosition
+    // Description:    writing a string at specific possition
+    // Access:    private
+    // Returns:
+    // Qualifier:
+    //***********************************
 void LCDController::writeAtPosition(uint8_t pos, const char* data)
 {
     if(pos == 0)
