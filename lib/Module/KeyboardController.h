@@ -1,6 +1,6 @@
 /*!
  * \file var.h
- * \summary file lớp đối tượng phím ấn
+ * \summary this 
  *
  * \author
  *
@@ -37,24 +37,24 @@ private:
     InterruptIn set_button;
     InterruptIn inverter_on;
     Timeout time_out;
-    /*Khởi tạo các sự kiện ngắt cho nút nhấn*/
+    /*initialization pressing button event */
     void Init();
-    /*Hàm chuyển về menu chính khi timeout*/
+    /*skip to main menu when permissive time is out*/
     void attimeout();
-    /*Hàm phục vụ sự kiện nhấn giữ nút set*/
+    /*processing long press event on button/
     void OnsetButtonLongPress();
-    /*Hàm phục vụ ngắt sườn xuống nút nhấn select*/
+    /*Processing when a falling edge pulse occur by pressing select button */
     void OnSelectButtonPress_fall_isr();
-    /*Hàm phục vụ ngắt sườn xuống nút nhấn set*/
+    /*Processing when a falling edge is occured by pressing set button*/
     void OnSetButtonPress_fall_isr();
-    /*Hàm phục vụ ngắt sườn lên nút nhấn set*/
+    /*Processing when a rising edge is occured by pressing set button*/
     void OnSetButtonPress_rise_isr();
-    /*Hàm phục vụ ngắt sườn xuống nút nhấn điều khiển inverter*/
+    /*Processing when a falling edge is occured by pressing inverter button*/
     void OnInverterOnPress_fall_isr();
 };
     //************************************
     // Method:    KeyboardController::Init
-    // Description:  Khởi tạo các sự kiện ngắt nút nhấn
+    // Description:    initialization pressing button event 
     // Access:    private
     // Returns:
     // Qualifier:
@@ -67,19 +67,19 @@ void KeyboardController::Init()
 }
     //************************************
     // Method:    KeyboardController::attimeout
-    // Description:  Hàm phục vụ sự kiện timeout trở về menu chính
+    // Description:    skip to main menu when permissive time is out
     // Access:    private
     // Returns:
     // Qualifier:
     //***********************************
 void KeyboardController::attimeout()
 {
-    /*Gán chỉ số menu bằng 0 để trở về menu chính*/
+    /*menu_index equal 0 when skip to main menu */
     menu_index = 0;
 }
     //************************************
     // Method:    KeyboardController::OnSelectButtonPress_fall_isr
-    // Description:  Hàm phục vụ sự kiện ngắt sườn xuống của nút nhấn select
+    // Description:    Processing when a falling edge pulse occur by pressing select button 
     // Access:    private
     // Returns:
     // Qualifier:
@@ -99,7 +99,7 @@ void KeyboardController::OnSelectButtonPress_fall_isr()
 }
     //************************************
     // Method:    KeyboardController::OnSetButtonPress_fall_isr
-    // Description:  phương thức phục vụ sự kiện ngắt sườn xuống của nút nhấn Set
+    // Description:    Processing when a falling edge is occured by pressing set button
     // Access:    private
     // Returns:
     // Qualifier:
@@ -116,7 +116,7 @@ void KeyboardController::OnSetButtonPress_fall_isr()
 }
     //************************************
     // Method:    KeyboardController::OnSetButtonPress_rise_isr
-    // Description:  phương thức phục vụ sự kiện ngắt sườn lên của nút nhấn Set
+    // Description:     Processing when a rising edge is occured by pressing set button
     // Access:    private
     // Returns:
     // Qualifier:
@@ -133,7 +133,7 @@ void KeyboardController::OnSetButtonPress_rise_isr()
 }
     //************************************
     // Method:    KeyboardController::OnsetButtonLongPress
-    // Description:  phương thức phục vụ sự kiện timeout khi giữ phím set
+    // Description:    Processing when time is out by long press event on button
     // Access:    private
     // Returns:
     // Qualifier:
