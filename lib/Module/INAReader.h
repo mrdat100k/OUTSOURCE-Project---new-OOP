@@ -9,14 +9,20 @@ public:
 	// Access:    public
 	// Returns:
 	// Qualifier:
-	//************************************
+	//***********************************
 	INAReader(INA219* batt_INA_ptr, INA219* pv_INA_ptr)
 	{
       INA_batmeasure_object_ptr = batt_INA_ptr;
       INA_pvmeasure_object_ptr = pv_INA_ptr;
 			Calibration();
 	}
+	/*
+ 	hiệu chỉnh lại dải đo cảm biến
+	*/
 	void Calibration();
+	/*
+ 	Hàm cập nhật giá trị đo từ cảm biến vào đối tượng
+	*/
 	void Scan();
 	float getBattVolt();
 	float getBattCurr();
