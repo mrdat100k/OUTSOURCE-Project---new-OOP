@@ -18,7 +18,13 @@ class KeyboardController
 public:
     uint8_t menu_index;
     bool timerOn;
-    /*Constructor*/
+    //************************************
+	// Method:    KeyboardController::KeyboardController
+	// Description:  KeyboardController constructor
+	// Access:    public
+	// Returns:
+	// Qualifier:
+	//***********************************
     KeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):
     select_button(_SELECT_PIN),
     set_button(_SET_PIN),
@@ -46,17 +52,38 @@ private:
 	/*Hàm phục vụ ngắt sườn xuống nút nhấn điều khiển inverter*/
     void OnInverterOnPress_fall_isr();
 };
+    //************************************
+	// Method:    KeyboardController::Init
+	// Description:  Khởi tạo các sự kiện ngắt nút nhấn
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::Init()
 {
     select_button.fall(callback(this, &KeyboardController::OnSelectButtonPress_fall_isr));
     set_button.fall(callback(this, &KeyboardController::OnSetButtonPress_fall_isr));
     set_button.rise(callback(this, &KeyboardController::OnSetButtonPress_rise_isr));
 }
+    //************************************
+	// Method:    KeyboardController::attimeout
+	// Description:  Hàm phục vụ sự kiện timeout trở về menu chính
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::attimeout()
 {
 	/*Gán chỉ số menu bằng 0 để trở về menu chính*/
     menu_index = 0;
 }
+    //************************************
+	// Method:    KeyboardController::OnSelectButtonPress_fall_isr
+	// Description:  Hàm phục vụ sự kiện ngắt sườn xuống của nút nhấn select
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::OnSelectButtonPress_fall_isr()
 {
     select_button.disable_irq();
@@ -70,6 +97,13 @@ void KeyboardController::OnSelectButtonPress_fall_isr()
 
     select_button.enable_irq();
 }
+    //************************************
+	// Method:    KeyboardController::OnSetButtonPress_fall_isr
+	// Description:  phương thức phục vụ sự kiện ngắt sườn xuống của nút nhấn Set
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::OnSetButtonPress_fall_isr()
 {
     set_button.disable_irq();
@@ -80,6 +114,13 @@ void KeyboardController::OnSetButtonPress_fall_isr()
     }
     set_button.enable_irq();
 }
+    //************************************
+	// Method:    KeyboardController::OnSetButtonPress_rise_isr
+	// Description:  phương thức phục vụ sự kiện ngắt sườn lên của nút nhấn Set
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::OnSetButtonPress_rise_isr()
 {
     set_button.disable_irq();
@@ -90,6 +131,13 @@ void KeyboardController::OnSetButtonPress_rise_isr()
     }
     set_button.enable_irq();
 }
+    //************************************
+	// Method:    KeyboardController::OnsetButtonLongPress
+	// Description:  phương thức phục vụ sự kiện timeout khi giữ phím set
+	// Access:    private
+	// Returns:
+	// Qualifier:
+	//***********************************
 void KeyboardController::OnsetButtonLongPress()
 {
     set_time(0);
