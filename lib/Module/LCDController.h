@@ -16,6 +16,13 @@
 class LCDController
 {
 public:
+    //************************************
+    // Method:    LCDController::LCDController
+    // Description:   LCDController constructor
+    // Access:    public
+    // Returns:
+    // Qualifier:
+    //***********************************
     LCDController(Adafruit_SSD1306_I2c *pointer):
         pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
         battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
@@ -25,29 +32,27 @@ public:
     {
         lcd_object_ptr = pointer;
     }
-    /*
-    hiển thị logo
-    */
+    /*display specific logo on LCD*/
     void showLogo();
-
+    /*update PV voltage value to display */
     void setPVVolt(float value);
-
+    /*update PV current value to display */
     void setPVCurr(float value);
-
+    /*update PV power value to display */
     void setPVPower(float value);
-
+    /*update PV energy value to display */
     void setPVEnergy(float value);
-
+    /*update battery voltage value to display */
     void setBattVolt(float value);
-
+    /*update battery current value to display */
     void setBattCurr(float value);
-
+    /*update battery power value to display */
     void setBattPower(float value);
-
+    /*update battery energy value to display */
     void setBattEnergy(float value);
-
+    /*Change content on screen */
     void  updateScreen(uint8_t screen_index);
-
+    /*setting timer value*/
     void setTime(uint8_t _hour, uint8_t _minute, uint8_t _second);
 
 private:
