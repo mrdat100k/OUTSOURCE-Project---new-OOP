@@ -18,7 +18,7 @@ class KeyboardController
 public:
     uint8_t menu_index;
     bool timerOn;
-    /*Constructer*/
+    /*Constructor*/
     KeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):
     select_button(_SELECT_PIN),
     set_button(_SET_PIN),
@@ -31,13 +31,19 @@ private:
     InterruptIn set_button;
     InterruptIn inverter_on;
     Timeout time_out;
-
+	/*Khởi tạo các sự kiện ngắt cho nút nhấn*/
     void Init();
+	/*Hàm chuyển về menu chính khi timeout*/
     void attimeout();
+	/*Hàm phục vụ sự kiện nhấn giữ nút set*/
     void OnsetButtonLongPress();
+	/*Hàm phục vụ ngắt sườn xuống nút nhấn select*/
     void OnSelectButtonPress_fall_isr();
+	/*Hàm phục vụ ngắt sườn xuống nút nhấn set*/
     void OnSetButtonPress_fall_isr();
+	/*Hàm phục vụ ngắt sườn lên nút nhấn set*/
     void OnSetButtonPress_rise_isr();
+	/*Hàm phục vụ ngắt sườn xuống nút nhấn điều khiển inverter*/
     void OnInverterOnPress_fall_isr();
 };
 void KeyboardController::Init()
@@ -48,6 +54,7 @@ void KeyboardController::Init()
 }
 void KeyboardController::attimeout()
 {
+	/*Gán chỉ số menu bằng 0 để trở về menu chính*/
     menu_index = 0;
 }
 void KeyboardController::OnSelectButtonPress_fall_isr()
