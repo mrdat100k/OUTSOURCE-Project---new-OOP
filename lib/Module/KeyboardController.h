@@ -31,19 +31,9 @@ private:
     InterruptIn set_button;
     InterruptIn inverter_on;
     Timeout time_out;
-<<<<<<< HEAD
 	/*Khởi tạo các sự kiện ngắt cho nút nhấn*/
     void Init();
 	/*Hàm chuyển về menu chính khi timeout*/
-=======
-    /*
-    khởi tạo các sự kiện trong ngắt
-    */
-    void Init();
-    /*
-    hàm chuyển màn hình
-    */
->>>>>>> d0462c14f9039c6e9bfa754c894ef2ebecdd70bf
     void attimeout();
 	/*Hàm phục vụ sự kiện nhấn giữ nút set*/
     void OnsetButtonLongPress();

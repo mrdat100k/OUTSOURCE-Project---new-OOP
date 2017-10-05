@@ -17,14 +17,7 @@ public:
 	RTC_Timer() :timer_state(false), second(0), minute(0), hour(0), day(0){
         set_time(0);
 	}
-<<<<<<< HEAD
 	/*Phương thức reset đồng hồ*/
-=======
-
-	/*
-	Reset timer
-	*/
->>>>>>> d0462c14f9039c6e9bfa754c894ef2ebecdd70bf
 	void Reset(){
 		timer_state = true;
 		set_time(0);
