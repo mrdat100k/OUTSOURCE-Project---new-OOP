@@ -1,7 +1,7 @@
 /*!
  *  File LCDController.h
  *  This file consist of classes which use to manage content on screen
- *  and divide screen to become three separate area
+ *  and the screen is controlled to display three separate menu
  *  
  *
  * Date October 2017
