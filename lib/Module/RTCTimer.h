@@ -1,3 +1,13 @@
+/*!
+ * \file RTCTimer.h
+ * \summary file chứa lớp đối tượng đồng hồ thời gian thực
+ *
+ * \author
+ *
+ * \date October 2017
+ *
+ *
+ */
 #ifndef _RTCTIMER_H_
 #define _RTCTIMER_H_
 #include <mbed.h>

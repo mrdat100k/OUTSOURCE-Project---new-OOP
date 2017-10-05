@@ -1,3 +1,13 @@
+/*!
+ * \file var.h
+ * \summary file lớp đối tượng phím ấn
+ *
+ * \author
+ *
+ * \date October 2017
+ *
+ *
+ */
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
 

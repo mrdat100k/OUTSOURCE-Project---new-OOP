@@ -1,7 +1,17 @@
+/*!
+ * \file LCDController.h
+ * \Lớp đối tượng màn hình
+ *
+ * \author
+ *
+ * \date October 2017
+ *
+ *
+ */
 #ifndef _LCDCONTROLLER_H_
 #define _LCDCONTROLLER_H_
 #include <Adafruit_SSD1306.h>
-#include<logo.h>
+#include <logo.h>
 class LCDController
 {
 public:
@@ -50,6 +60,7 @@ private:
     uint16_t cursor_pos_col[3], cursor_pos_row[4];
     void writeAtPosition(uint8_t pos, const char* data);
 };
+
 void LCDController::showLogo()
 {
   lcd_object_ptr -> clearDisplay();
