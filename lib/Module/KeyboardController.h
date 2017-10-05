@@ -1,6 +1,6 @@
 /*!
  * \file var.h
- * \summary this 
+ * \summary this
  *
  * \author
  *
@@ -41,7 +41,7 @@ private:
     void Init();
     /*skip to main menu when permissive time is out*/
     void attimeout();
-    /*processing long press event on button/
+    /*processing long press event on button*/
     void OnsetButtonLongPress();
     /*Processing when a falling edge pulse occur by pressing select button */
     void OnSelectButtonPress_fall_isr();
@@ -54,7 +54,7 @@ private:
 };
     //************************************
     // Method:    KeyboardController::Init
-    // Description:    initialization pressing button event 
+    // Description:    initialization pressing button event
     // Access:    private
     // Returns:
     // Qualifier:
@@ -79,7 +79,7 @@ void KeyboardController::attimeout()
 }
     //************************************
     // Method:    KeyboardController::OnSelectButtonPress_fall_isr
-    // Description:    Processing when a falling edge pulse occur by pressing select button 
+    // Description:    Processing when a falling edge pulse occur by pressing select button
     // Access:    private
     // Returns:
     // Qualifier:
