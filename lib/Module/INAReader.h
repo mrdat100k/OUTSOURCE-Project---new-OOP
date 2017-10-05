@@ -41,12 +41,12 @@ public:
 	 		 This will depend on voltage input from PV
 	 *@param pv_curr PV Current value is read from INA module
 	 		 This will depend on current input from PV
-	 *@param pv_curr Energy value of PV that is measured by INA module 
-	 *@param pv_volt batterry Voltage value  is read from INA module
-	 		 This will depend on batterry voltage input 
-	 *@param pv_curr batterry Current value is read from INA module
-	 		 This will depend on batterry current
-	 *@param pv_curr batterry Enery value is measured by INA module 
+	 *@param pv_power Power value of PV that is measured by INA module 
+	 *@param battery_volt batterry Voltage value  is read from INA module
+	 		 	       This will depend on batterry voltage 
+	 *@param battery_currbatterry Current value is read from INA module
+	 		              This will depend on batterry current
+	 *@param battery_power Batterry power value is measured by INA module 
 	/*
  	Adjust measurement range
 	*/
