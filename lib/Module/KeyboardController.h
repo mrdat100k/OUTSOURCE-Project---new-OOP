@@ -94,6 +94,10 @@ void KeyboardController::OnSelectButtonPress_fall_isr()
     {
         menu_index = 0;
     }
+    else
+    {
+        /*Do nothing*/
+    }
 
     select_button.enable_irq();
 }
@@ -107,10 +111,14 @@ void KeyboardController::OnSelectButtonPress_fall_isr()
 void KeyboardController::OnSetButtonPress_fall_isr()
 {
     set_button.disable_irq();
-    if(1 == menu_index || 2 == menu_index)
+    if((1 == menu_index) || (2 == menu_index))
     {
         timerOn = !timerOn;
         time_out.attach(callback(this, &KeyboardController::OnsetButtonLongPress), 2);
+    }
+    else
+    {
+        /*Do nothing*/
     }
     set_button.enable_irq();
 }
@@ -125,9 +133,13 @@ void KeyboardController::OnSetButtonPress_rise_isr()
 {
     set_button.disable_irq();
     wait_ms(50);
-    if(1 == menu_index || 2 == menu_index)
+    if((1 == menu_index) || (2 == menu_index))
     {
         time_out.attach(callback(this, &KeyboardController::attimeout), 15);
+    }
+    else
+    {
+        /*Do nothing*/
     }
     set_button.enable_irq();
 }
