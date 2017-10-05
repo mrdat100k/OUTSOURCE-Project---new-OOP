@@ -1,11 +1,10 @@
 /*!
- * \file LCDController.h
- * \Lớp đối tượng màn hình
- * \Lớp đối tượng quản lý các thông tin hiển thị trên màn hình
- * \Chia màn hình hiển thị thành 3 menu
- * \author
+ *  File LCDController.h
+ *  This file consist of classes which use to manage content on screen
+ *  and divide screen to become three separate area
+ *  
  *
- * \date October 2017
+ * Date October 2017
  *
  *
  */
