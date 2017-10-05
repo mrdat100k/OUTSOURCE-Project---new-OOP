@@ -1,6 +1,6 @@
 /*!
  * \file RTCTimer.h
- * \summary file chứa lớp đối tượng đồng hồ thời gian thực
+ * \summary this file consist of realtime clock classes 
  * 
  * \author
  *
@@ -13,13 +13,13 @@
 #include <mbed.h>
 class RTC_Timer{
 public:
-    /*Constructor khởi tạo đối tượng đồng hồ thời gian thực*/
+
     RTC_Timer() :
 	timer_state(false), second(0), minute(0), hour(0), day(0)
     {
         set_time(0);
     }
-    /*Phương thức reset đồng hồ*/
+
     void Reset()
     {
         timer_state = true;
