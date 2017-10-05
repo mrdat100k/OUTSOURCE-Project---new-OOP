@@ -17,6 +17,9 @@ public:
         set_time(0);
 	}
 
+	/*
+	Reset timer
+	*/
 	void Reset(){
 		timer_state = true;
 		set_time(0);
