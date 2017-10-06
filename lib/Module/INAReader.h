@@ -1,13 +1,13 @@
 /******************************************************************************
- * 
+ *
  * Copyright (c) October 2017,
  *
  *
  *****************************************************************************/
 /**
  * @file INAReader.h
- * @author 
- * @brief Configuration and Reading data from INA module, uses the hadware I2C available 
+ * @author
+ * @brief Configuration and Reading data from INA module, uses the hadware I2C available
  * 	  in the Maple to interact with I2C slave (INA module).
  */
 /*
@@ -29,10 +29,10 @@ public:
     // Returns:
     // Qualifier:
     //***********************************
-    INAReader(INA219* batt_INA_ptr, INA219* pv_INA_ptr)
+    INAReader(INA219* _bat_ina_ptr, INA219* _pv_ina_ptr)
     {
-        INA_batmeasure_object_ptr = batt_INA_ptr;
-        INA_pvmeasure_object_ptr = pv_INA_ptr;
+        ina_batmeasure_object_ptr = _bat_ina_ptr;
+        ina_pvmeasure_object_ptr = _pv_ina_ptr;
 	Calibration();
     }
     /**
@@ -41,12 +41,13 @@ public:
 	            This will depend on voltage input from PV
     *@param pv_curr PV Current value is read from INA module
 	            This will depend on current input from PV
-    *@param pv_power Power value of PV that is measured by INA module 
+    *@param pv_power Power value of PV that is measured by INA module
     *@param battery_volt batterry Voltage value  is read from INA module
-	             This will depend on batterry voltage 
+	             This will depend on batterry voltage
     *@param battery_curr batterry Current value is read from INA module
 	             This will depend on batterry current
-    *@param battery_power Batterry power value is measured by INA module 
+    *@param battery_power Batterry power value is measured by INA module
+    */
     /*
     Adjust measurement range
     */
@@ -55,15 +56,15 @@ void Calibration();
     Reading voltage value and current value from INA module
     */
     void Scan();
-    float getBattVolt();
-    float getBattCurr();
-    float getBattPower();
-    float getPVVolt();
-    float getPVCurr();
-    float getPVPower();
+    float GetBattVolt();
+    float GetBattCurr();
+    float GetBattPower();
+    float GetPVVolt();
+    float GetPVCurr();
+    float GetPVPower();
 private:
-    INA219* INA_batmeasure_object_ptr;
-    INA219* INA_pvmeasure_object_ptr;
+    INA219* ina_batmeasure_object_ptr;
+    INA219* ina_pvmeasure_object_ptr;
     float pv_volt;
     float pv_curr;
     float pv_power;
@@ -73,15 +74,15 @@ private:
 };
     //************************************
     // Method:    INAReader::Calibration
-    // Description:  Adjust measurement range 
+    // Description:  Adjust measurement range
     // Access:    public
-    // Returns: 
-    // Qualifier: 
+    // Returns:
+    // Qualifier:
     //***********************************
 void INAReader::Calibration()
 {
-    INA_batmeasure_object_ptr -> calibrate_32v_3200mA();
-    INA_pvmeasure_object_ptr -> calibrate_32v_3200mA();
+    ina_batmeasure_object_ptr -> calibrate_32v_3200mA();
+    ina_pvmeasure_object_ptr -> calibrate_32v_3200mA();
 }
     //************************************
     // Method:    INAReader::Scan
@@ -92,76 +93,76 @@ void INAReader::Calibration()
     //***********************************
 void INAReader::Scan()
 {
-    pv_volt = INA_pvmeasure_object_ptr -> read_bus_voltage();
-    pv_curr = INA_pvmeasure_object_ptr -> read_current_mA();
-    pv_power = INA_pvmeasure_object_ptr -> read_power_mW();
-    battery_volt = INA_batmeasure_object_ptr -> read_bus_voltage();
-    battery_curr = INA_batmeasure_object_ptr -> read_current_mA();
-    battery_power = INA_batmeasure_object_ptr -> read_power_mW();
+    pv_volt = ina_pvmeasure_object_ptr -> read_bus_voltage();
+    pv_curr = ina_pvmeasure_object_ptr -> read_current_mA();
+    pv_power = ina_pvmeasure_object_ptr -> read_power_mW();
+    battery_volt = ina_batmeasure_object_ptr -> read_bus_voltage();
+    battery_curr = ina_batmeasure_object_ptr -> read_current_mA();
+    battery_power = ina_batmeasure_object_ptr -> read_power_mW();
 }
     //************************************
-    // Method:    INAReader::getBattVolt
+    // Method:    INAReader::GetBattVolt
     // Description:    Reading battery voltage value
     // Access:    public
     // Returns:    battery_volt
     // Qualifier:
     //***********************************
-float INAReader::getBattVolt()
+float INAReader::GetBattVolt()
 {
     return battery_volt;
 }
     //************************************
-    // Method:    INAReader::getBattCurr
+    // Method:    INAReader::GetBattCurr
     // Description:     Reading battery current value
     // Access:    public
     // Returns:    battery_curr
     // Qualifier:
     //***********************************
-float INAReader::getBattCurr()
+float INAReader::GetBattCurr()
 {
     return battery_curr;
 }
     //************************************
-    // Method:    INAReader::getBattPower
+    // Method:    INAReader::GetBattPower
     // Description:    Reading battery energy value
     // Access:    public
     // Returns:    battery_power
     // Qualifier:
     //***********************************
-float INAReader::getBattPower()
+float INAReader::GetBattPower()
 {
     return battery_power;
 }
     //************************************
-    // Method:    INAReader::getPVVolt
+    // Method:    INAReader::GetPVVolt
     // Description:    Reading PV voltage value
     // Access:    public
     // Returns:    pv_volt
     // Qualifier:
     //***********************************
-float INAReader::getPVVolt()
+float INAReader::GetPVVolt()
 {
     return pv_volt;
 }
     //************************************
-    // Method:    INAReader::getPVCurr
+    // Method:    INAReader::GetPVCurr
     // Description:    Reading PV current value
     // Access:    public
     // Returns:    pv_curr
     // Qualifier:
     //***********************************
-float INAReader::getPVCurr()
+float INAReader::GetPVCurr()
 {
     return pv_curr;
 }
     //************************************
-    // Method:    INAReader::getPVPower
+    // Method:    INAReader::GetPVPower
     // Description:    Reading PV current value
     // Access:    public
     // Returns: pv_power
     // Qualifier:
     //***********************************
-float INAReader::getPVPower()
+float INAReader::GetPVPower()
 {
     return pv_power;
 }

@@ -17,7 +17,7 @@ class KeyboardController
 {
 public:
     uint8_t menu_index;
-    bool timerOn;
+    bool timer_on;
     //************************************
     // Method:    KeyboardController::KeyboardController
     // Description:  KeyboardController constructor
@@ -40,17 +40,17 @@ private:
     /*initialization pressing button event */
     void Init();
     /*skip to main menu when permissive time is out*/
-    void attimeout();
+    void AtTimeOut();
     /*processing long press event on button*/
     void OnsetButtonLongPress();
     /*Processing when a falling edge pulse occur by pressing select button */
-    void OnSelectButtonPress_fall_isr();
+    void OnSelectButtonPressFallIsr();
     /*Processing when a falling edge is occured by pressing set button*/
-    void OnSetButtonPress_fall_isr();
+    void OnSetButtonPressFallIsr();
     /*Processing when a rising edge is occured by pressing set button*/
-    void OnSetButtonPress_rise_isr();
+    void OnSetButtonPressRiseIsr();
     /*Processing when a falling edge is occured by pressing inverter button*/
-    void OnInverterOnPress_fall_isr();
+    void OnInverterOnPressFallIsr();
 };
     //************************************
     // Method:    KeyboardController::Init
@@ -61,33 +61,33 @@ private:
     //***********************************
 void KeyboardController::Init()
 {
-    select_button.fall(callback(this, &KeyboardController::OnSelectButtonPress_fall_isr));
-    set_button.fall(callback(this, &KeyboardController::OnSetButtonPress_fall_isr));
-    set_button.rise(callback(this, &KeyboardController::OnSetButtonPress_rise_isr));
+    select_button.fall(callback(this, &KeyboardController::OnSelectButtonPressFallIsr));
+    set_button.fall(callback(this, &KeyboardController::OnSetButtonPressFallIsr));
+    set_button.rise(callback(this, &KeyboardController::OnSetButtonPressRiseIsr));
 }
     //************************************
-    // Method:    KeyboardController::attimeout
+    // Method:    KeyboardController::AtTimeOut
     // Description:    skip to main menu when permissive time is out
     // Access:    private
     // Returns:
     // Qualifier:
     //***********************************
-void KeyboardController::attimeout()
+void KeyboardController::AtTimeOut()
 {
     /*menu_index equal 0 when skip to main menu */
     menu_index = 0;
 }
     //************************************
-    // Method:    KeyboardController::OnSelectButtonPress_fall_isr
+    // Method:    KeyboardController::OnSelectButtonPressFallIsr
     // Description:    Processing when a falling edge pulse occur by pressing select button
     // Access:    private
     // Returns:
     // Qualifier:
     //***********************************
-void KeyboardController::OnSelectButtonPress_fall_isr()
+void KeyboardController::OnSelectButtonPressFallIsr()
 {
     select_button.disable_irq();
-    time_out.attach(callback(this, &KeyboardController::attimeout), 15);
+    time_out.attach(callback(this, &KeyboardController::AtTimeOut), 15);
     wait_ms(50);
     menu_index++;
     if (menu_index >= 3)
@@ -102,18 +102,18 @@ void KeyboardController::OnSelectButtonPress_fall_isr()
     select_button.enable_irq();
 }
     //************************************
-    // Method:    KeyboardController::OnSetButtonPress_fall_isr
+    // Method:    KeyboardController::OnSetButtonPressFallIsr
     // Description:    Processing when a falling edge is occured by pressing set button
     // Access:    private
     // Returns:
     // Qualifier:
     //***********************************
-void KeyboardController::OnSetButtonPress_fall_isr()
+void KeyboardController::OnSetButtonPressFallIsr()
 {
     set_button.disable_irq();
     if((1 == menu_index) || (2 == menu_index))
     {
-        timerOn = !timerOn;
+        timer_on = !timer_on;
         time_out.attach(callback(this, &KeyboardController::OnsetButtonLongPress), 2);
     }
     else
@@ -123,19 +123,19 @@ void KeyboardController::OnSetButtonPress_fall_isr()
     set_button.enable_irq();
 }
     //************************************
-    // Method:    KeyboardController::OnSetButtonPress_rise_isr
+    // Method:    KeyboardController::OnSetButtonPressRiseIsr
     // Description:     Processing when a rising edge is occured by pressing set button
     // Access:    private
     // Returns:
     // Qualifier:
     //***********************************
-void KeyboardController::OnSetButtonPress_rise_isr()
+void KeyboardController::OnSetButtonPressRiseIsr()
 {
     set_button.disable_irq();
     wait_ms(50);
     if((1 == menu_index) || (2 == menu_index))
     {
-        time_out.attach(callback(this, &KeyboardController::attimeout), 15);
+        time_out.attach(callback(this, &KeyboardController::AtTimeOut), 15);
     }
     else
     {
