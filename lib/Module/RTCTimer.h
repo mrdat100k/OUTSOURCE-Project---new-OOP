@@ -1,25 +1,33 @@
 /*!
- * \file RTCTimer.h
- * \summary this file consist of realtime clock classes 
- * 
- * \author
- *
- * \date October 2017
- *
- *
+ * file RTCTimer.h
+ * summary this file consist of realtime clock classes 
+ * author
+ * date October 2017
  */
 #ifndef _RTCTIMER_H_
 #define _RTCTIMER_H_
 #include <mbed.h>
 class RTC_Timer{
 public:
-
+    //************************************
+    // Method: RTC_Timer::RTC_Timer
+    // Description: RTC_Timer constructor
+    // Access: public
+    // Returns:
+    // Qualifier:
+    //************************************
     RTC_Timer() :
 	timer_state(false), second(0), minute(0), hour(0), day(0)
     {
         set_time(0);
     }
-
+    //************************************
+    // Method: RTC_Timer::RTC_Timer
+    // Description: RTC_Timer constructor
+    // Access: public
+    // Returns:
+    // Qualifier:
+    //************************************
     void Reset()
     {
         timer_state = true;
@@ -29,27 +37,29 @@ public:
         hour = 0;
         day = 0;
     }
-
     void Off()
     {
         timer_state = false;
     }
-
     void On()
     {
         timer_state = true;
-    }
-	
+    }	
     void ChangeState()
     {
         timer_state = !timer_state;
     }
-
     bool GetState()
     {
         return timer_state;
     }
-	
+    //************************************
+    // Method: RTC_Timer::Update
+    // Description: Updating second value, minute value, hour value
+    // Access: public
+    // Returns:
+    // Qualifier:
+    //************************************	
     void Update()
     {
         /* Update timer*/
