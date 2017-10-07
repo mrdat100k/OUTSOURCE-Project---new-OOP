@@ -21,6 +21,12 @@
 /** Class for configuration and Reading data from INA module  */
 class INAReader{
 public:
+    /**
+    *@param current_out_of_range alarm when current out of range
+    *@param voltage_out_of_range alarm when voltage out of range
+    */
+    bool current_out_of_range;
+    bool voltage_out_of_range;
     //************************************
     //@brief Construct a new INAReader instance.
     // Method:    INAReader::INAReader
@@ -33,7 +39,6 @@ public:
     {
         ina_batmeasure_object_ptr = _bat_ina_ptr;
         ina_pvmeasure_object_ptr = _pv_ina_ptr;
-	Calibration();
     }
     /**
     *@brief
@@ -51,7 +56,7 @@ public:
     /*
     Adjust measurement range
     */
-void Calibration();
+    void Calibration(float _shunt_value, float _max_current, float _max_voltage);
     /*
     Reading voltage value and current value from INA module
     */
@@ -71,6 +76,9 @@ private:
     float battery_volt;
     float battery_curr;
     float battery_power;
+    float max_current;
+    float max_voltage;
+
 };
     //************************************
     // Method:    INAReader::Calibration
@@ -79,10 +87,12 @@ private:
     // Returns:
     // Qualifier:
     //***********************************
-void INAReader::Calibration()
+void INAReader::Calibration(float _shunt_value, float _max_current, float _max_voltage)
 {
-    ina_batmeasure_object_ptr -> calibrate_32v_3200mA();
-    ina_pvmeasure_object_ptr -> calibrate_32v_3200mA();
+    ina_batmeasure_object_ptr -> calibrate(_shunt_value, _max_current, _max_voltage);
+    ina_pvmeasure_object_ptr -> calibrate(_shunt_value, _max_current, _max_voltage);
+    max_current = _max_current;
+    max_voltage = _max_voltage;
 }
     //************************************
     // Method:    INAReader::Scan
@@ -99,6 +109,22 @@ void INAReader::Scan()
     battery_volt = ina_batmeasure_object_ptr -> read_bus_voltage();
     battery_curr = ina_batmeasure_object_ptr -> read_current_mA();
     battery_power = ina_batmeasure_object_ptr -> read_power_mW();
+    if( (pv_volt >= max_voltage) || (battery_volt >= max_voltage) )
+    {
+        voltage_out_of_range = true;
+    }
+    else
+    {
+        voltage_out_of_range = false;
+    }
+    if( (pv_curr >= max_current) || (battery_curr >= max_current) )
+    {
+        current_out_of_range = true;
+    }
+    else
+    {
+        current_out_of_range = false;
+    }
 }
     //************************************
     // Method:    INAReader::GetBattVolt

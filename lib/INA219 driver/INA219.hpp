@@ -110,14 +110,20 @@ public:
      */
     void calibrate_16v_400mA();
     void calibrate_32v_3200mA();
+    /** Sets the calibration register.
+     *
+     *  by shunt resistor, max current and max voltage.
+     *
+     */
+    void calibrate(float _shunt_value, float _max_current, float _max_voltage);
 
 protected:
     resolution_t resolution;
 
     int i2c_addr;
-    int current_divider;
-    int power_divider;
-    int volt_gain;
+    float current_divider;
+    float power_divider;
+    float volt_gain;
     //...
 
     /** Writes a uint8_t array to the specified I2C register.
