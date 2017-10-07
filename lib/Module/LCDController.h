@@ -284,8 +284,10 @@ void LCDController::UpdateScreen(uint8_t screen_index)
 }
     //************************************
     // Method: LCDController::WriteAtPosition
-    // Description: Writing a string at specific possition
-    // 
+    // Description: Writing a string at specific position
+    // There are 12 separate area to choose (position:0->11)
+    // so position column is determined by position % 3 
+    // and position row is determined by position / 3
     // Access: Private
     // Returns:
     // Qualifier:
