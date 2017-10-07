@@ -22,8 +22,8 @@ public:
         set_time(0);
     }
     //************************************
-    // Method: RTC_Timer::RTC_Timer
-    // Description: RTC_Timer constructor
+    // Method: RTC_Timer::Reset
+    // Description: reset time value
     // Access: public
     // Returns:
     // Qualifier:
