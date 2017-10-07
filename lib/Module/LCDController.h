@@ -2,10 +2,7 @@
  *  File LCDController.h
  *  This file consist of classes which use to manage content on screen
  *  and the screen is controlled to display three separate menu
- *
- *
  * Date October 2017
- *
  *
  */
 #ifndef _LCDCONTROLLER_H_
@@ -22,11 +19,25 @@ public:
     // Returns:
     // Qualifier:
     //***********************************
+    /**
+    *@brief
+    *@param second 
+    *@param minute
+    *@param hour
+    *Second value, minute value, hour value start 0. when pressing button, it starts to increase
+    *it's updated continuously to display on screen
+    *@param cursor_pos_col Column position array
+    *@param cursor_pos_row row position array
+    *The screen is divided to 12 separate area
+    *so we need 3 column and 4 row position values to locate a specific area
+    /*
+    Adjust measurement range
+    */
     LCDController(Adafruit_SSD1306_I2c *pointer):
         pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
         battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
         second(0), minute(0), hour(0),
-	      cursor_pos_col{ 0, 45, 78 },
+	cursor_pos_col{ 0, 45, 78 },
         cursor_pos_row{ 18, 30, 42, 54 }
     {
         lcd_object_ptr = pointer;
@@ -53,7 +64,6 @@ public:
     void  UpdateScreen(uint8_t screen_index);
     /*Setting timer value*/
     void SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second);
-
 private:
     float pv_volt;
     float pv_curr;
@@ -69,9 +79,9 @@ private:
     void WriteAtPosition(uint8_t pos, const char* data);
 };
     //************************************
-    // Method:    LCDController::ShowLogo
-    // Description:    showing a specific logo on screen
-    // Access:    public
+    // Method: LCDController::ShowLogo
+    // Description: Showing a specific logo on screen
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -82,9 +92,9 @@ void LCDController::ShowLogo()
     lcd_object_ptr -> display();
 }
     //************************************
-    // Method:    LCDController::SetPVVolt
-    // Description:    updating PV voltage value to display
-    // Access:    public
+    // Method: LCDController::SetPVVolt
+    // Description: Updating PV voltage value to display
+    // Access: public
     // Returns:
     // Qualifier:
     //***********************************
@@ -93,9 +103,9 @@ void LCDController::SetPVVolt(float value)
     pv_volt = value;
 }
     //************************************
-    // Method:    LCDController::SetPVCurr
-    // Description:    updating PV current value to display
-    // Access:    public
+    // Method: LCDController::SetPVCurr
+    // Description: updating PV current value to display
+    // Access: public
     // Returns:
     // Qualifier:
     //***********************************
@@ -104,9 +114,9 @@ void LCDController::SetPVCurr(float value)
     pv_curr = value;
 }
     //************************************
-    // Method:    LCDController::SetPVPower
-    // Description:    updating PV power value to display
-    // Access:    public
+    // Method: LCDController::SetPVPower
+    // Description: Updating PV power value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -115,9 +125,9 @@ void LCDController::SetPVPower(float value)
     pv_power = value;
 }
     //************************************
-    // Method:    LCDController::SetPVEnergy
-    // Description:    updating PV energy value to display
-    // Access:    public
+    // Method: LCDController::SetPVEnergy
+    // Description: Updating PV energy value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -126,9 +136,9 @@ void LCDController::SetPVEnergy(float value)
     pv_energy = value;
 }
     //************************************
-    // Method:    LCDController::SetBattVolt
-    // Description:    updating battery voltage value to display
-    // Access:    public
+    // Method: LCDController::SetBattVolt
+    // Description: Updating battery voltage value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -137,9 +147,9 @@ void LCDController::SetBattVolt(float value)
     battery_volt = value;
 }
     //************************************
-    // Method:    LCDController::SetBattCurr
-    // Description:    updating battery current value to display
-    // Access:    public
+    // Method: LCDController::SetBattCurr
+    // Description: Updating battery current value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -148,9 +158,9 @@ void LCDController::SetBattCurr(float value)
     battery_curr = value;
 }
     //************************************
-    // Method:    LCDController::SetBattPower
-    // Description:    updating battery power value to display
-    // Access:    public
+    // Method: LCDController::SetBattPower
+    // Description: Updating battery power value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -159,9 +169,9 @@ void LCDController::SetBattPower(float value)
     battery_power = value;
 }
     //************************************
-    // Method:    LCDController::SetBattEnergy
-    // Description:    updating battery energy value to display
-    // Access:    public
+    // Method: LCDController::SetBattEnergy
+    // Description: Updating battery energy value to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -170,9 +180,9 @@ void LCDController::SetBattEnergy(float value)
     battery_energy = value;
 }
     //************************************
-    // Method:    LCDController::SetTime
-    // Description:    updating time to display
-    // Access:    public
+    // Method: LCDController::SetTime
+    // Description: Updating time to display
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -183,9 +193,12 @@ void LCDController::SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second)
     second = _second;
 }
     //************************************
-    // Method:    LCDController::UpdateScreen
-    // Description:    change menu screen
-    // Access:    public
+    // Method: LCDController::UpdateScreen
+    // Description: Change menu screen
+    // There are 3 different menu screen
+    // Before updating a new screen, we need to call clearing display function
+    // @para screen_index The variable determine which menu screen is displayed
+    // Access: Public
     // Returns:
     // Qualifier:
     //***********************************
@@ -193,7 +206,6 @@ void LCDController::UpdateScreen(uint8_t screen_index)
 {
     char buff[12]; /*Data buffer*/
     lcd_object_ptr -> clearDisplay();
-
     /* Update screen contents */
     switch (screen_index)
     {
@@ -270,10 +282,11 @@ void LCDController::UpdateScreen(uint8_t screen_index)
 
     lcd_object_ptr -> display();
 }
-   //************************************
-    // Method:    LCDController::WriteAtPosition
-    // Description:    writing a string at specific possition
-    // Access:    private
+    //************************************
+    // Method: LCDController::WriteAtPosition
+    // Description: Writing a string at specific possition
+    // 
+    // Access: Private
     // Returns:
     // Qualifier:
     //***********************************
