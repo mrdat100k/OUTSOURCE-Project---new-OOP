@@ -19,7 +19,7 @@ public:
     // Returns:
     // Qualifier:
     //***********************************
-    /**
+    /*
     *@brief
     *@param second 
     *@param minute
@@ -30,8 +30,6 @@ public:
     *@param cursor_pos_row row position array
     *The screen is divided to 12 separate area
     *so we need 3 column and 4 row position values to locate a specific area
-    /*
-    Adjust measurement range
     */
     LCDController(Adafruit_SSD1306_I2c *pointer):
         pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
