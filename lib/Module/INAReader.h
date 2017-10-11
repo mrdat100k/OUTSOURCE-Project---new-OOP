@@ -20,7 +20,7 @@
 /*
  * Example:
  * @code
- * calibrate, read current, voltage and power
+ * calibration, reading current, voltage and power
  * #include <mbed.h>
  * #include <INAReader>
  * INAReader measurement_object;
