@@ -1,6 +1,6 @@
 /** @file logo.h
 *
-* @brief This file contains bitmap  data of watershed's logo
+* @brief lOGO URL:
 *
 * @par
 * COPYRIGHT NOTICE:

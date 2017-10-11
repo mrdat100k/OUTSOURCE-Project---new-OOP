@@ -59,7 +59,7 @@ public:
      *  @returns
      *      A value between -32768 and +32768. Depending on the calibration and configuration register values, the actual power can be calculated.
      */
-    int16_t read_power_raw();
+    //int16_t read_power_raw();
     /** Reads the power from the INA219 and calculates the actual value in mW.
      *
      *  @see read_power_raw
@@ -67,7 +67,7 @@ public:
      *  @returns
      *      A floating point value corresponding to the power being used in the circuit, in mW.
      */
-    float read_power_mW();
+    //float read_power_mW();
 
     /** Reads the raw shunt voltage value from the INA219.
      *
@@ -93,7 +93,7 @@ public:
      *  @returns
      *      A value between -32768 and +32768 corresponding to the bus voltage.
      */
-    int16_t read_bus_voltage_raw();
+    //int16_t read_bus_voltage_raw();
     /** Reads the bus voltage and uses it to calculate the actual bus voltage.
      *
      *  @see read_bus_voltage_raw
@@ -101,29 +101,21 @@ public:
      *  @returns
      *      A floating point value corresponding to the voltage of V+ (in V).
      */
-    float read_bus_voltage();
+    //float read_bus_voltage();
 
     /** Sets the calibration register.
-     *
+     *     
      *  Specifies a maximum bus voltage of 16V and maximum current of 400mA.
-     *
+     *  
      */
     void calibrate_16v_400mA();
-    void calibrate_32v_3200mA();
-    /** Sets the calibration register.
-     *
-     *  by shunt resistor, max current and max voltage.
-     *
-     */
-    void calibrate(float _shunt_value, float _max_current, float _max_voltage);
 
 protected:
     resolution_t resolution;
 
     int i2c_addr;
-    float current_divider;
-    float power_divider;
-    float volt_gain;
+    int current_divider;
+    int power_divider;
     //...
 
     /** Writes a uint8_t array to the specified I2C register.
@@ -154,7 +146,7 @@ protected:
      *      The contents of the specified register, as a 16 bit integer.
      */
     uint16_t read_register_u16(uint8_t reg);
-
+    
     /** Writes nothing to a specified register. (Used to tell the chip that we want to read from that register)
      *
      *  @see read_register_u16

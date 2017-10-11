@@ -9,19 +9,29 @@
 #define _LCDCONTROLLER_H_
 #include <Adafruit_SSD1306.h>
 #include <logo.h>
-class LCDController
+/* an I2C sub-class that provides a constructed default */
+class I2CPreInit : public I2C
 {
 public:
-    //************************************
-    // Method:    LCDController::LCDController
-    // Description:   LCDController constructor
-    // Access:    public
-    // Returns:
-    // Qualifier:
-    //***********************************
-    /*
+    I2CPreInit(PinName sda, PinName scl) : I2C(sda, scl)
+    {
+        frequency(400000);
+        start();
+    }
+};
+class LCDController : private Adafruit_SSD1306_I2c
+{
+public:
+    /************************************
+    * Method:    LCDController::LCDController
+    * Description:   LCDController constructor
+    * Access:    public
+    * Returns:
+    * Qualifier:
+    ***********************************
+    *
     *@brief
-    *@param second 
+    *@param second
     *@param minute
     *@param hour
     *Second value, minute value, hour value start 0. when pressing button, it starts to increase
@@ -30,15 +40,21 @@ public:
     *@param cursor_pos_row row position array
     *The screen is divided to 12 separate area
     *so we need 3 column and 4 row position values to locate a specific area
-    */
-    LCDController(Adafruit_SSD1306_I2c *pointer):
-        pv_volt(0), pv_curr(0), pv_power(0), pv_energy(0),
-        battery_volt(0), battery_curr(0), battery_power(0), battery_energy(0),
-        second(0), minute(0), hour(0),
-	cursor_pos_col{ 0, 45, 78 },
-        cursor_pos_row{ 18, 30, 42, 54 }
+    **************************************/
+    LCDController(I2C &i2c, PinName RST = NC, uint8_t i2cAddress = SSD_I2C_ADDRESS, uint8_t rawHeight = 64, uint8_t rawWidth = 128):
+    Adafruit_SSD1306_I2c(i2c, RST, i2cAddress, rawHeight, rawWidth)
     {
-        lcd_object_ptr = pointer;
+        pv_volt = 0;
+        pv_curr = 0;
+        pv_power = 0;
+        pv_energy = 0;
+        battery_volt = 0;
+        battery_curr = 0;
+        battery_power = 0;
+        battery_energy = 0;
+        second = 0;
+        minute = 0;
+        hour = 0;
     }
     /*display specific logo on LCD*/
     void ShowLogo();
@@ -71,75 +87,74 @@ private:
     float battery_curr;
     float battery_power;
     float battery_energy;
-    Adafruit_SSD1306_I2c *lcd_object_ptr;
     uint8_t second, minute, hour;
-    uint16_t cursor_pos_col[3], cursor_pos_row[4];
+
     void WriteAtPosition(uint8_t pos, const char* data);
 };
-    //************************************
-    // Method: LCDController::ShowLogo
-    // Description: Showing a specific logo on screen
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::ShowLogo
+    * Description: Showing a specific logo on screen
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::ShowLogo()
 {
-    lcd_object_ptr -> clearDisplay();
-    lcd_object_ptr -> drawBitmap(0, 6, watershed_logo_data, 128, 48, WHITE);
-    lcd_object_ptr -> display();
+    clearDisplay();
+    drawBitmap(0, 6, watershed_logo_data, 128, 48, WHITE);
+    display();
 }
-    //************************************
-    // Method: LCDController::SetPVVolt
-    // Description: Updating PV voltage value to display
-    // Access: public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::SetPVVolt
+    * Description: Updating PV voltage value to display
+    * Access: public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::SetPVVolt(float value)
 {
     pv_volt = value;
 }
-    //************************************
-    // Method: LCDController::SetPVCurr
-    // Description: updating PV current value to display
-    // Access: public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::SetPVCurr
+    * Description: updating PV current value to display
+    * Access: public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::SetPVCurr(float value)
 {
     pv_curr = value;
 }
-    //************************************
-    // Method: LCDController::SetPVPower
-    // Description: Updating PV power value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::SetPVPower
+    * Description: Updating PV power value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::SetPVPower(float value)
 {
     pv_power = value;
 }
-    //************************************
-    // Method: LCDController::SetPVEnergy
-    // Description: Updating PV energy value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::SetPVEnergy
+    * Description: Updating PV energy value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::SetPVEnergy(float value)
 {
     pv_energy = value;
 }
-    //************************************
-    // Method: LCDController::SetBattVolt
-    // Description: Updating battery voltage value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * Method: LCDController::SetBattVolt
+    * Description: Updating battery voltage value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    *************************************/
 void LCDController::SetBattVolt(float value)
 {
     battery_volt = value;
@@ -203,7 +218,7 @@ void LCDController::SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second)
 void LCDController::UpdateScreen(uint8_t screen_index)
 {
     char buff[12]; /*Data buffer*/
-    lcd_object_ptr -> clearDisplay();
+    clearDisplay();
     /* Update screen contents */
     switch (screen_index)
     {
@@ -278,13 +293,13 @@ void LCDController::UpdateScreen(uint8_t screen_index)
             break;
     }
 
-    lcd_object_ptr -> display();
+    display();
 }
     //************************************
     // Method: LCDController::WriteAtPosition
     // Description: Writing a string at specific position
     // There are 12 separate area to choose (position:0->11)
-    // so position column is determined by position % 3 
+    // so position column is determined by position % 3
     // and position row is determined by position / 3
     // Access: Private
     // Returns:
@@ -292,16 +307,18 @@ void LCDController::UpdateScreen(uint8_t screen_index)
     //***********************************
 void LCDController::WriteAtPosition(uint8_t pos, const char* data)
 {
+    const uint16_t cursor_pos_col[3] = { 0, 45, 78 };
+    const uint16_t cursor_pos_row[4] = { 18, 30, 42, 54 };
     if(pos == 0)
     {
-        lcd_object_ptr -> setTextCursor(0, 0);
+        setTextCursor(0, 0);
     }
     else
     {
-        lcd_object_ptr -> setTextCursor(cursor_pos_col[(pos-1)%3], cursor_pos_row[(pos-1)/3]);
+        setTextCursor(cursor_pos_col[(pos-1)%3], cursor_pos_row[(pos-1)/3]);
     }
-    lcd_object_ptr -> printf("%s", data);
-    lcd_object_ptr -> setTextCursor(0, 0);
+    printf("%s", data);
+    setTextCursor(0, 0);
 }
 
 #endif /*_LCDCONTROLLER_H_*/
