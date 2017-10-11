@@ -71,7 +71,7 @@ public:
     * Access:    public
     * Returns:
     * Qualifier:
-    /***********************************
+    ***********************************/
     INAReader(PinName sda, PinName scl, int addr=0x40, int freq=100000, resolution_t res=RES_12BITS):
     INA219(sda, scl, addr, freq, res)
     {
@@ -93,9 +93,7 @@ public:
     *@param battery_curr batterry Current value is read from INA module
 	             This will depend on batterry current
     *@param battery_power Batterry power value is measured by INA module
-    */
-    /*
-    Adjust measurement range
+    * Adjust measurement range
     */
     void Calibrate(float _shunt_value, float _max_current, float _max_voltage);
     /*
@@ -165,13 +163,13 @@ private:
     float read_bus_voltage();
 
 };
-    //************************************
-    // Method:    INAReader::Calibration
-    // Description:  Adjust measurement range
-    // Access:    public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method:    INAReader::Calibration
+    * Description:  Adjust measurement range
+    * Access:    public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void INAReader::Calibrate(float _shunt_value, float _max_current, float _max_voltage)
 {
     uint16_t calibrating_value;
@@ -286,7 +284,7 @@ float INAReader::read_bus_voltage()
     * Access:    public
     * Returns:
     * Qualifier:
-    /***********************************
+    ***********************************/
 void INAReader::Scan()
 {
     volt = read_bus_voltage();
@@ -316,7 +314,7 @@ void INAReader::Scan()
     * Access:    public
     * Returns:    pv_volt
     * Qualifier:
-    /***********************************
+    ***********************************/
 float INAReader::GetVolt()
 {
     return volt;
@@ -327,7 +325,7 @@ float INAReader::GetVolt()
     * Access:    public
     * Returns:    pv_curr
     * Qualifier:
-    /***********************************
+    ***********************************/
 float INAReader::GetCurr()
 {
     return curr;
@@ -338,7 +336,7 @@ float INAReader::GetCurr()
     * Access:    public
     * Returns: pv_power
     * Qualifier:
-    /***********************************
+    ***********************************/
 float INAReader::GetPower()
 {
     return power;
