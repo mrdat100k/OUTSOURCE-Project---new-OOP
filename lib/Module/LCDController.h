@@ -159,62 +159,62 @@ void LCDController::SetBattVolt(float value)
 {
     battery_volt = value;
 }
-    //************************************
-    // Method: LCDController::SetBattCurr
-    // Description: Updating battery current value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::SetBattCurr
+    * Description: Updating battery current value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::SetBattCurr(float value)
 {
     battery_curr = value;
 }
-    //************************************
-    // Method: LCDController::SetBattPower
-    // Description: Updating battery power value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::SetBattPower
+    * Description: Updating battery power value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::SetBattPower(float value)
 {
     battery_power = value;
 }
-    //************************************
-    // Method: LCDController::SetBattEnergy
-    // Description: Updating battery energy value to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::SetBattEnergy
+    * Description: Updating battery energy value to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::SetBattEnergy(float value)
 {
     battery_energy = value;
 }
-    //************************************
-    // Method: LCDController::SetTime
-    // Description: Updating time to display
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::SetTime
+    * Description: Updating time to display
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second)
 {
     hour = _hour;
     minute = _minute;
     second = _second;
 }
-    //************************************
-    // Method: LCDController::UpdateScreen
-    // Description: Change menu screen
-    // There are 3 different menu screen
-    // Before updating a new screen, we need to call clearing display function
-    // @para screen_index The variable determine which menu screen is displayed
-    // Access: Public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::UpdateScreen
+    * Description: Change menu screen
+    * There are 3 different menu screen
+    * Before updating a new screen, we need to call clearing display function
+    * @para screen_index The variable determine which menu screen is displayed
+    * Access: Public
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::UpdateScreen(uint8_t screen_index)
 {
     char buff[12]; /*Data buffer*/
@@ -295,16 +295,16 @@ void LCDController::UpdateScreen(uint8_t screen_index)
 
     display();
 }
-    //************************************
-    // Method: LCDController::WriteAtPosition
-    // Description: Writing a string at specific position
-    // There are 12 separate area to choose (position:0->11)
-    // so position column is determined by position % 3
-    // and position row is determined by position / 3
-    // Access: Private
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method: LCDController::WriteAtPosition
+    * Description: Writing a string at specific position
+    * There are 12 separate area to choose (position:0->11)
+    * so position column is determined by position % 3
+    * and position row is determined by position / 3
+    * Access: Private
+    * Returns:
+    * Qualifier:
+    ***********************************/
 void LCDController::WriteAtPosition(uint8_t pos, const char* data)
 {
     const uint16_t cursor_pos_col[3] = { 0, 45, 78 };
