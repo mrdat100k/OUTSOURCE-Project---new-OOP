@@ -64,14 +64,14 @@ public:
     */
     bool current_out_of_range;
     bool voltage_out_of_range;
-    //************************************
-    //@brief Construct a new INAReader instance.
-    // Method:    INAReader::INAReader
-    // Description:   INAReader constructor
-    // Access:    public
-    // Returns:
-    // Qualifier:
-    //***********************************
+    /************************************
+    * @brief Construct a new INAReader instance.
+    * Method:    INAReader::INAReader
+    * Description:   INAReader constructor
+    * Access:    public
+    * Returns:
+    * Qualifier:
+    /***********************************
     INAReader(PinName sda, PinName scl, int addr=0x40, int freq=100000, resolution_t res=RES_12BITS):
     INA219(sda, scl, addr, freq, res)
     {
@@ -280,13 +280,13 @@ float INAReader::read_bus_voltage()
     float raw_volt = read_bus_voltage_raw();
     return raw_volt * voltage_lsb;
 }
-    //************************************
-    // Method:    INAReader::Scan
-    // Description:     Reading current value, voltage value, energy value form INA module
-    // Access:    public
-    // Returns:
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method:    INAReader::Scan
+    * Description:     Reading current value, voltage value, energy value form INA module
+    * Access:    public
+    * Returns:
+    * Qualifier:
+    /***********************************
 void INAReader::Scan()
 {
     volt = read_bus_voltage();
@@ -310,35 +310,35 @@ void INAReader::Scan()
     }
 }
 
-    //************************************
-    // Method:    INAReader::GetPVVolt
-    // Description:    Reading PV voltage value
-    // Access:    public
-    // Returns:    pv_volt
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method:    INAReader::GetPVVolt
+    * Description:    Reading PV voltage value
+    * Access:    public
+    * Returns:    pv_volt
+    * Qualifier:
+    /***********************************
 float INAReader::GetVolt()
 {
     return volt;
 }
-    //************************************
-    // Method:    INAReader::GetPVCurr
-    // Description:    Reading PV current value
-    // Access:    public
-    // Returns:    pv_curr
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method:    INAReader::GetPVCurr
+    * Description:    Reading PV current value
+    * Access:    public
+    * Returns:    pv_curr
+    * Qualifier:
+    /***********************************
 float INAReader::GetCurr()
 {
     return curr;
 }
-    //************************************
-    // Method:    INAReader::GetPVPower
-    // Description:    Reading PV current value
-    // Access:    public
-    // Returns: pv_power
-    // Qualifier:
-    //***********************************
+   /************************************
+    * Method:    INAReader::GetPVPower
+    * Description:    Reading PV current value
+    * Access:    public
+    * Returns: pv_power
+    * Qualifier:
+    /***********************************
 float INAReader::GetPower()
 {
     return power;
