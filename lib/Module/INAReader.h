@@ -1,32 +1,26 @@
 /******************************************************************************
- *
- * Copyright (c) October 2017,
- *
+ * @file    INAReader.h
+ * @author
+ * @brief    Configuration and Reading data from INA module, uses the hardware I2C 
+ * 	     available in the Maple to interact with I2C slave (INA module).
+ * @date     Oct. 2017
+ * Copyright(C) 2017
+ * All rights reserved.
  *
  *****************************************************************************/
-/**
- * @file INAReader.h
- * @author
- * @brief Configuration and Reading data from INA module, uses the hadware I2C available
- * 	  in the Maple to interact with I2C slave (INA module).
- */
-/*
- * Library created to use with ARM cores.
- * users easy interaction with the I2C Hardware in a familiar method.
- */
 
 #ifndef _INAREADER_H_
 #define _INAREADER_H_
 #include <INA219.hpp>
-/** \addtogroup Module */
-
-/** Class for configuration and Reading data from INA module
- *
- *
+ 
+/* Class for configuration and Reading data from INA module
+ * If this source file built with example, the <mbed.h> and <INAReader> library 
+ * must be included
+ */
+/*
  * Example:
  * @code
- * // calibrate, read current, voltage and power
- * cảnh báo khi quá dòng, quá áp
+ * calibrate, read current, voltage and power
  * #include <mbed.h>
  * #include <INAReader>
  * INAReader measurement_object;
@@ -35,7 +29,7 @@
  *     float volt_mV;
  *     float curr_mA;
  *     float power_mW;
- *     // calibrate với giá trị điện trở shunt 0.1 ohm, max current 3.2A, max voltage 16V
+ *     //calibrating with shunt resistor 0.1 ohm, max current 3.2A, max voltage 16V
  *     measurement_object.calibrate(0.1, 3.2, 16);
  *     while(1) {
  *          measurement_object.Scan();
