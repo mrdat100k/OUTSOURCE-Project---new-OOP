@@ -344,3 +344,28 @@ float INAReader::GetPower()
     return power;
 }
 #endif /*_INAREADER_H_*/
+
+/*Use case
+ *Name : Calibration 
+ *ID : 01
+ *Description : when user want to change shunt resistor value, range current and voltage   
+ *              measurement to match with desiring range.
+ *Actors : user  
+ *Triggers:  The user set measurement range 
+ *Main course :  1.The system reads  _shunt_value, _max_current, _max_voltage value
+ *	         2. Changing calibration register value according to max current value and shunt resistor value.
+ *		 3. choosing voltage range (16Volt or 32 Volt) from max voltage value
+ *Exceptions:  _shunt_value, _max_current value or _max_voltage value is out of permissive range.
+ */
+/*Use case
+ *Name : Getting current value, voltage value and power value
+ *ID : 02
+ *Description : User wanna get current value, voltage value and power value from the INA219 module 
+ *Actors : user  
+ *Triggers:  The user call the function 
+ *Main course :  The system reads  _shunt_value, _max_current, _max_voltage value
+ *		 from corresponding register of INA219.
+*Exceptions:  INA219 module is not connected.
+*/
+
+
