@@ -2,7 +2,7 @@
  * @file    INAReader.h
  * @author   Dua Nguyen
  * @brief    Configuration and Reading data from INA module, uses the hardware I2C
- * 	     available in the Maple to interact with I2C slave (INA module).
+ * 	         available in the Maple to interact with I2C slave (INA module).
  * @date     Oct. 2017
  * @date modified 2017/10/13
  * @version 1.0.0
@@ -18,8 +18,8 @@
   *Actors : user
   *Triggers:  The user set measurement range
   *Main course :  1.The system reads  _shunt_value, _max_current, _max_voltage value
-  *	         2. Changing calibration register value according to max current value and shunt resistor value.
-  *		 3. choosing voltage range (16Volt or 32 Volt) from max voltage value
+  *	              2. Changing calibration register value according to max current value and shunt resistor value.
+  *		             3. choosing voltage range (16Volt or 32 Volt) from max voltage value
   *Exceptions:  _shunt_value, _max_current value or _max_voltage value is out of permissive range.
   */
  /*Use case
@@ -114,6 +114,7 @@ public:
 
     /************************************
     * Method: INAReader::Calibrate
+    * Description: Calibrating INA219 according to shunt resistor value, max current value, max voltage value
     * @brief: INA219 Calibration
     * @param _shunt_value shunt resistor value
     * @param _max_current max current value that is set by user
@@ -123,10 +124,17 @@ public:
     * Qualifier:
     * @Date modified 2017/10/13
     * @author Dua Nguyen
+    * Exceptions: 
+    * 1. Setting max current value or max voltage value out of range 
+    *  Max current value of system equal 320/(shunt resistor value) mA
+    *  Max current value (unit: Ampere) set by user have to in persissive range ( smaller than max current  of system) 
+    * @TODO show a notification for user when user compile 
     ***********************************/
     void Calibrate(float _shunt_value, float _max_current, float _max_voltage);
     /*
-    Reading voltage value and current value from INA module
+    *Reading voltage value, current value and power value from INA module
+    *Exceptions: 1.when measurement value out of permissive range. the display always show max value
+    *@TODO show to user a notification by a text on LCD
     */
     void Scan();
     float GetVolt();
@@ -136,9 +144,9 @@ private:
    /**
    *@brief
    *@param volt Voltage value is read from INA module
-            This will depend on bus voltage (V+ pin) of INA219
+           This will depend on bus voltage (V+ pin) of INA219
    *@param curr Current value is read from INA module
-            This will depend on current through the shunt resistor
+           This will depend on current through the shunt resistor
    *@param power Power value of PV that is measured by INA module
    *@param max_current the maximum of current set by operator
    *@param max_voltage the maximum of voltage set by operator
