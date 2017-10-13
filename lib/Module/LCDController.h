@@ -5,7 +5,7 @@
   *  and the screen is controlled to display three separate menu
   * @date     Oct. 2017
   * @date modified 2017/10/13
-  * @version   1.0.0
+  * @version   1.0.0 
   * Copyright(C) 2017
   * All rights reserved.
   *
@@ -15,6 +15,13 @@
 #include <Adafruit_SSD1306.h>
 #include <logo.h>
 /* an I2C sub-class that provides a constructed default */
+/* Exceptions: 1. LCD i2c pins are not connected
+ * @TODO checking logic level of i2c pins and show a notification for user by blink led
+ */
+/* Exceptions: 2. LCD address is not set correctly
+ * @TODO make sure that user has checked i2c pins. checking LCD address again 
+ * LCD address can be 0x36 or 0x37 . it depend on logic value of SA0 pin on SSD1306 ic
+ */
 class I2CPreInit : public I2C
 {
 public:
