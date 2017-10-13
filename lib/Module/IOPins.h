@@ -1,3 +1,14 @@
+/******************************************************************************
+ * @file    IOPins.h
+ * @author   Dua Nguyen
+ * @brief   Contains IO Pins map using for the demo
+ * @date     Oct. 2017
+ * @date modified 2017/10/13
+ * @version 1.0.0
+ * Copyright(C) 2017
+ * All rights reserved.
+ *
+ *****************************************************************************/
 #ifndef _IOPIN_H_
 #define _IOPIN_H_
 /*

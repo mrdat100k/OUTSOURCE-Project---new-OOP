@@ -1,33 +1,53 @@
-/*!
- * file RTCTimer.h
- * summary this file consist of realtime clock classes 
- * author
- * date October 2017
- */
+ /******************************************************************************
+  * @file    INAReader.h
+  * @author  Dua Nguyen
+  * @brief    this file consist of realtime clock classes
+  * @date     Oct. 2017
+  * @date modified 2017/10/13
+  * @version   1.0.0
+  * Copyright(C) 2017
+  * All rights reserved.
+  *
+  *****************************************************************************/
 #ifndef _RTCTIMER_H_
 #define _RTCTIMER_H_
 #include <mbed.h>
+/* Class for configuration and Reading data from INA module
+ * If this source file built with example, the <RTCTimer.h> library
+ * must be included
+ */
+/*
+ * Example:
+ * @code
+ * TODO: updating
+ * @endcode
+ * @ingroup module
+ */
 class RTC_Timer{
 public:
-    //************************************
-    // Method: RTC_Timer::RTC_Timer
-    // Description: RTC_Timer constructor
-    // Access: public
-    // Returns:
-    // Qualifier:
-    //************************************
-    RTC_Timer() :
-	timer_state(false), second(0), minute(0), hour(0), day(0)
+    /************************************
+    * Method: RTC_Timer::RTC_Timer
+    * Description: RTC_Timer constructor
+    * Access: public
+    * Returns:
+    * Qualifier:
+    ************************************/
+    RTC_Timer()
     {
+        timer_state = false;
+        second = 0;
+        minute = 0;
+        hour = 0;
+        day = 0;
         set_time(0);
     }
-    //************************************
-    // Method: RTC_Timer::Reset
-    // Description: reset time value
-    // Access: public
-    // Returns:
-    // Qualifier:
-    //************************************
+    /************************************
+    * Method: RTC_Timer::Reset
+    * Description: reset time value
+    * Access: public
+    * Returns:
+    * Qualifier:
+    ************************************/
     void Reset()
     {
         timer_state = true;
@@ -44,7 +64,7 @@ public:
     void On()
     {
         timer_state = true;
-    }	
+    }
     void ChangeState()
     {
         timer_state = !timer_state;
@@ -53,13 +73,13 @@ public:
     {
         return timer_state;
     }
-    //************************************
-    // Method: RTC_Timer::Update
-    // Description: Updating second value, minute value, hour value
-    // Access: public
-    // Returns:
-    // Qualifier:
-    //************************************	
+    /************************************
+    * Method: RTC_Timer::Update
+    * Description: Updating second value, minute value, hour value
+    * Access: public
+    * Returns:
+    * Qualifier:
+    ************************************/
     void Update()
     {
         /* Update timer*/
@@ -83,7 +103,7 @@ public:
     {
         return hour;
     }
-	
+
     uint32_t GetSecond_s()
     {
         return time(NULL);
@@ -93,6 +113,6 @@ private:
     bool timer_state;
     uint8_t second, minute, hour, day;
     uint32_t seconds;
-	
+
 };
 #endif /*_RTCTIMER_H_*/

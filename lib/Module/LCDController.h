@@ -1,10 +1,15 @@
-/*!
- *  File LCDController.h
- *  This file consist of classes which use to manage content on screen
- *  and the screen is controlled to display three separate menu
- * Date October 2017
- *
- */
+ /******************************************************************************
+  * @file    LCDController.h
+  * @author   Dua Nguyen
+  * @brief    This file consist of classes which use to manage content on screen
+  *  and the screen is controlled to display three separate menu
+  * @date     Oct. 2017
+  * @date modified 2017/10/13
+  * @version   1.0.0
+  * Copyright(C) 2017
+  * All rights reserved.
+  *
+  *****************************************************************************/
 #ifndef _LCDCONTROLLER_H_
 #define _LCDCONTROLLER_H_
 #include <Adafruit_SSD1306.h>
@@ -19,30 +24,34 @@ public:
         start();
     }
 };
+/* Class content lcd display UI
+ * If this source file built with example, the <mbed.h> and <LCDController.h> library
+ * must be included
+ */
+/*
+ * Example:
+ * @code
+ * TODO: updating
+ * @endcode
+ * @ingroup module
+ */
 class LCDController : private Adafruit_SSD1306_I2c
 {
 public:
     /************************************
-    * Method:    LCDController::LCDController
-    * Description:   LCDController constructor
-    * Access:    public
+    * Method: LCDController::LCDController
+    * @brief: LCDController constructor
+    * @param i2c an I2CPreInit object for I2C communication
+    * @param RST LCD reset pin. default state is not connected
+    * @param rawHeight LCD hight value
+    * @param rawWidth LCD width value
+    * Access: public
     * Returns:
     * Qualifier:
-    ***********************************
-    *
-    *@brief
-    *@param second
-    *@param minute
-    *@param hour
-    *Second value, minute value, hour value start 0. when pressing button, it starts to increase
-    *it's updated continuously to display on screen
-    *@param cursor_pos_col Column position array
-    *@param cursor_pos_row row position array
-    *The screen is divided to 12 separate area
-    *so we need 3 column and 4 row position values to locate a specific area
-    **************************************/
-    LCDController(I2C &i2c, PinName RST = NC, uint8_t i2cAddress = SSD_I2C_ADDRESS, uint8_t rawHeight = 64, uint8_t rawWidth = 128):
-    Adafruit_SSD1306_I2c(i2c, RST, i2cAddress, rawHeight, rawWidth)
+    ***********************************/
+
+    LCDController(I2C &i2c, PinName RST = NC, uint8_t rawHeight = 64, uint8_t rawWidth = 128):
+    Adafruit_SSD1306_I2c(i2c, RST, SSD_I2C_ADDRESS, rawHeight, rawWidth)
     {
         pv_volt = 0;
         pv_curr = 0;
@@ -79,6 +88,17 @@ public:
     /*Setting timer value*/
     void SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second);
 private:
+  /**********************************
+  *@param second
+  *@param minute
+  *@param hour
+  *Second value, minute value, hour value start 0. when pressing button, it starts to increase
+  *it's updated continuously to display on screen
+  *@param cursor_pos_col Column position array
+  *@param cursor_pos_row row position array
+  *The screen is divided to 12 separate area
+  *so we need 3 column and 4 row position values to locate a specific area
+  **************************************/
     float pv_volt;
     float pv_curr;
     float pv_power;
@@ -224,7 +244,6 @@ void LCDController::UpdateScreen(uint8_t screen_index)
     {
         case(0) : {
 
-            //TODO: viet not
             WriteAtPosition(0, "MAIN MENU");
             WriteAtPosition(1, "Charge");
             WriteAtPosition(2, "Yes");
@@ -242,7 +261,6 @@ void LCDController::UpdateScreen(uint8_t screen_index)
             break;
         }
         case(1) : {
-            //TODO: viet not
             WriteAtPosition(0, "PV Charge Info");
             WriteAtPosition(1, "PV Volt");
             sprintf(buff, "%2.1f V ", pv_volt/1000);

@@ -1,8 +1,12 @@
 /** @file logo.h
+* @author Dua Nguyen
 *
-* @brief lOGO URL:
+* @brief lOGO URL: https://cdn.expertise.com/logos/The%20Watershed%20Company.jpg
 *
-* @par
+* @par convert to bitmap by LCDAssistant URL:http://lcd-assistant.software.informer.com/
+* @date     Oct. 2017
+* @date modified 2017/10/13
+* @version 1.0.0
 * COPYRIGHT NOTICE:
 * All rights reserved.
 */

@@ -1,19 +1,16 @@
-/*!
- * \file main.cpp
- * \date 2017/10/06
- *
- * \author
- * Contact:
- *
- * \brief
- *
- * TODO: long description
- * Functional testing: reading current value, voltage value, power value from INA module,
+/******************************************************************************
+ * @file    main.cpp
+ * @author   Dua Nguyen
+ * @brief     Functional testing: reading current value, voltage value, power value from INA module,
  * time update, display content on screen, press button to go next screen, reSet timer.
+ * TODO: long description
+ * @date     Oct. 2017
+ * @date modified 2017/10/13
+ * @version 1.0.0
+ * Copyright(C) 2017
+ * All rights reserved.
  *
- * \note
-*/
-
+ *****************************************************************************/
 #include <IOPins.h>
 #include <mbed.h>
 #include <LCDController.h>
