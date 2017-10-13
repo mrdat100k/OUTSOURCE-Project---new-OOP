@@ -41,6 +41,8 @@ public:
     * Access: public
     * Returns:
     * Qualifier:
+    * Exceptions: 1. When keyboard is not connected 
+    * @TODO <nothing>
     ***********************************/
     KeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):
     select_button(_SELECT_PIN),
