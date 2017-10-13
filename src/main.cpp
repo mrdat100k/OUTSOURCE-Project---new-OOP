@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file    main.cpp
- * @author   Dua Nguyen
+ * @author  Dua Nguyen
  * @brief     Functional testing: reading current value, voltage value, power value from INA module
  * time update, display content on screen, press button to go next screen, reSet timer.
  * TODO: long description
@@ -42,6 +42,10 @@
    SELECT_BUTTON_PIN ------------PB_0
    SET_BUTTON_PIN ---------------PB_1
    INVERTER_ON_PIN --------------PB_2
+  */
+ /*****************************************************************************
+  * RTCtimer functionality including count a period time to calculate energy of battery 
+    and PV
  *****************************************************************************/
 #include <IOPins.h>
 #include <mbed.h>
