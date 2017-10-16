@@ -104,9 +104,9 @@ public:
     //float read_bus_voltage();
 
     /** Sets the calibration register.
-     *     
+     *
      *  Specifies a maximum bus voltage of 16V and maximum current of 400mA.
-     *  
+     *
      */
     void calibrate_16v_400mA();
 
@@ -146,7 +146,7 @@ protected:
      *      The contents of the specified register, as a 16 bit integer.
      */
     uint16_t read_register_u16(uint8_t reg);
-    
+
     /** Writes nothing to a specified register. (Used to tell the chip that we want to read from that register)
      *
      *  @see read_register_u16
