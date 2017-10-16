@@ -1,25 +1,19 @@
 #include <mbed.h>
 #include <unity.h>
-
 #include "INAReader.h"
 #include "LCDController.h"
 #include "RTCTimer.h"
 #include "KeyboardController.h"
 #include "IOPins.h"
-
-
-
 #ifdef UNIT_TEST
-
-
 I2CPreInit i2c_object_test(I2C_SDA, I2C_SCL);
 LCDController testlcdcontroller(i2c_object_test);
 KeyboardController testkeyboard(SELECT_BUTTON_PIN, SET_BUTTON_PIN, INVERTER_ON_PIN);
 INAReader test_measurement(I2C_SDA, I2C_SCL, 0x40);
 RTC_Timer test_rtctimer;
-
-void test_LCD_Batt(void)
+void DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay(void)
 {
+    /* All of these should pass */
     testlcdcontroller.SetBattVolt(10);
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattVolt(), 10);
     testlcdcontroller.SetBattCurr(30);
@@ -30,8 +24,9 @@ void test_LCD_Batt(void)
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattEnergy(), 30);
 }
 
-void test_LCD_PV(void)
+void DisplayLCD_WhenChangingPVParameters_ChangingParametersToDisplay(void)
 {
+    /* All of these should pass */
     testlcdcontroller.SetPVVolt(10);
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVVolt(), 10);
     testlcdcontroller.SetPVCurr(30);
@@ -42,16 +37,16 @@ void test_LCD_PV(void)
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVEnergy(), 30);
 }
 
-void test_LCD_Time(void)
-{
+void DisplayLCD_WhenChangingTimerParameters_ChangingParametersToDisplay(void)
+{   /* All of these should pass */
     testlcdcontroller.SetTime(23,59,59);
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 23);
 }
 
-void test_Keyboard_selectbutton(void)
-{
+void PressingKeyboard_WhenMenuButtonIsPressed_ChangingMenuParameter(void)
+{   /* All of these should pass */
     testkeyboard.AtTimeOut();
     testkeyboard.OnSelectButtonPressFallIsr();
     TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 1);
@@ -61,8 +56,8 @@ void test_Keyboard_selectbutton(void)
     TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 0);
 }
 
-void test_Keyboard_setbutton(void)
-{
+void PressingKeyboard_WhenChangingTimerStateButtonIsPressed_ChangingTimerParameters(void)
+{   /* All of these should pass */
     testkeyboard.Setmenuindex(1);
     testkeyboard.OnSetButtonPressFallIsr();
     TEST_ASSERT(testkeyboard.Gettimeron() == true);
@@ -70,9 +65,8 @@ void test_Keyboard_setbutton(void)
     testkeyboard.OnSetButtonPressFallIsr();
     TEST_ASSERT(testkeyboard.Gettimeron() == false);
 }
-
-void test_INA(void)
-{
+void MethodsOfINA_WhenCallingMethods_CheckingInputValues(void)
+{   /* All of these should pass */
     test_measurement.Calibrate(0.1, 3.2, 32);
     test_measurement.GetVolt(32.1);
     test_measurement.GetCurr(3.3);
@@ -81,8 +75,9 @@ void test_INA(void)
     TEST_ASSERT(test_measurement.Get_current_out_of_range() == true);
 }
 
-void test_RTCtimer_Reset(void)
+void ResetRTCtimer_WhenResetTimer_ResetTimerValues(void)
 {
+    /* All of these should pass */
     test_rtctimer.Reset();
     TEST_ASSERT(test_rtctimer.GetState() == true);
     TEST_ASSERT_EQUAL_INT8(test_rtctimer.GetSecond(), 0);
@@ -92,7 +87,7 @@ void test_RTCtimer_Reset(void)
 
 }
 
-void test_RTCtimer_State(void)
+void StateTimer_WhenChangingTimerState_ChangingtimerState(void)
 {
     test_rtctimer.On();
     TEST_ASSERT(test_rtctimer.GetState() == true);
@@ -102,7 +97,7 @@ void test_RTCtimer_State(void)
     TEST_ASSERT(test_rtctimer.GetState() == true);
 }
 
-void test_RTCtimer_Update(void)
+void UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues(void)
 {
     set_time(43199);
     test_rtctimer.Update();
@@ -113,26 +108,25 @@ void test_RTCtimer_Update(void)
 
 int main()
 {
-
     UNITY_BEGIN();
 
-    RUN_TEST(test_LCD_Batt);
+    RUN_TEST(DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay);
 
-    RUN_TEST(test_LCD_PV);
+    RUN_TEST(DisplayLCD_WhenChangingPVParameters_ChangingParametersToDisplay);
 
-    RUN_TEST(test_LCD_Time);
+    RUN_TEST(DisplayLCD_WhenChangingTimerParameters_ChangingParametersToDisplay);
 
-    RUN_TEST(test_Keyboard_setbutton);
+    RUN_TEST(PressingKeyboard_WhenMenuButtonIsPressed_ChangingMenuParameter);
 
-    RUN_TEST(test_Keyboard_selectbutton);
+    RUN_TEST(PressingKeyboard_WhenChangingTimerStateButtonIsPressed_ChangingTimerParameters);
 
-    RUN_TEST(test_INA);
+    RUN_TEST(MethodsOfINA_WhenCallingMethods_CheckingInputValues);
 
-    RUN_TEST(test_RTCtimer_Update);
+    RUN_TEST(ResetRTCtimer_WhenResetTimer_ResetTimerValues);
 
-    RUN_TEST(test_RTCtimer_State);
+    RUN_TEST(RUN_TEST(StateTimer_WhenChangingTimerState_ChangingtimerState);
 
-    RUN_TEST(test_RTCtimer_Reset);
+    RUN_TEST(UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues);
 
     UNITY_END();
     while(1){}
