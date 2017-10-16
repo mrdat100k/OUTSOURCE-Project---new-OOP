@@ -140,7 +140,12 @@ public:
     float GetVolt();
     float GetCurr();
     float GetPower();
-//private:
+    bool Get_voltage_out_of_range();
+    bool Get_current_out_of_range();
+    void GetVolt(float value);
+    void GetCurr(float value);
+    void TestScanning();
+private:
    /**
    *@brief
    *@param volt Voltage value is read from INA module
@@ -212,7 +217,6 @@ public:
      */
     float read_bus_voltage();
 
-    bool Get_voltage_out_of_range();
-    bool Get_current_out_of_range();
+
 };
 #endif /*_INAREADER_H_*/

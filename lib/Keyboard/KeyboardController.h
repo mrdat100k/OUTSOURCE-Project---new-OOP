@@ -31,7 +31,7 @@ public:
     * @param timer_on timer state
     */
     uint8_t menu_index;
-    bool timer_on;
+    bool timer_on = false;
     /************************************
     * Method:  KeyboardController::KeyboardController
     * @brief: KeyboardController constructor
@@ -74,6 +74,8 @@ public:
     int Getmenuindex(void);
 
     bool Gettimeron(void);
+
+    void Setmenuindex(int);
 };
 
 #endif /*_KEYBOARD_H_*/

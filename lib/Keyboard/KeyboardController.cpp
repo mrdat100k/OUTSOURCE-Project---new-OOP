@@ -114,3 +114,8 @@ bool KeyboardController::Gettimeron(void)
 {
     return timer_on;
 }
+
+void KeyboardController::Setmenuindex(int value)
+{
+    menu_index = value;
+}

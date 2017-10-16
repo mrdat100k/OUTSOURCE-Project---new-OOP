@@ -112,22 +112,22 @@ public:
     float GetBattEnergy(void);
 
     int GetTime(int);
-  
+
 
 
 
 private:
- /**********************************
- *@param second
- *@param minute
- *@param hour
- *Second value, minute value, hour value start 0. when pressing button, it starts to increase
- *it's updated continuously to display on screen
- *@param cursor_pos_col Column position array
- *@param cursor_pos_row row position array
- *The screen is divided to 12 separate area
- *so we need 3 column and 4 row position values to locate a specific area
- **************************************/
+   /**********************************
+   *@param second
+   *@param minute
+   *@param hour
+   *Second value, minute value, hour value start 0. when pressing button, it starts to increase
+   *it's updated continuously to display on screen
+   *@param cursor_pos_col Column position array
+   *@param cursor_pos_row row position array
+   *The screen is divided to 12 separate area
+   *so we need 3 column and 4 row position values to locate a specific area
+   **************************************/
    float pv_volt;
    float pv_curr;
    float pv_power;

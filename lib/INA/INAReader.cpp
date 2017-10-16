@@ -189,3 +189,33 @@ bool INAReader::Get_current_out_of_range()
 {
     return current_out_of_range;
 }
+
+void INAReader::GetVolt(float value)
+{
+    volt = value;
+}
+
+void INAReader::GetCurr(float value)
+{
+    curr = value;
+}
+
+void INAReader::TestScanning()
+{
+    if ( volt >= max_voltage )
+    {
+        voltage_out_of_range = true;
+    }
+    else
+    {
+        voltage_out_of_range = false;
+    }
+    if ( curr >= max_current )
+    {
+        current_out_of_range = true;
+    }
+    else
+    {
+        current_out_of_range = false;
+    }
+}
