@@ -168,7 +168,7 @@ void UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues(void)
 }
 
 int main()
-{ 
+{  /*starting a test*/
     UNITY_BEGIN();
 
     RUN_TEST(DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay);
@@ -188,7 +188,7 @@ int main()
     RUN_TEST(RUN_TEST(StateTimer_WhenChangingTimerState_ChangingtimerState);
 
     RUN_TEST(UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues);
-
+    /*finish this test*/
     UNITY_END();
     while(1){}
 }
