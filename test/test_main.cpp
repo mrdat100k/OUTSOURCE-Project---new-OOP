@@ -1,7 +1,10 @@
 /******************************************************************************
  * @file    test_main.cpp
  * @author  Dua Nguyen
- * @brief
+ * @brief  This file include: LCD displaying test by changing
+ *         timer, PV and battery parameters to show; keyboard test; 
+ *         INA219 test by calibrating, setting and reading parameters
+ *         and RTC timer test.
  * TODO: long description
  * @date     Oct. 2017
  * @date modified 2017/10/13
