@@ -1,3 +1,17 @@
+/******************************************************************************
+ * @file    test_main.cpp
+ * @author  Dua Nguyen
+ * @brief
+ * TODO: long description
+ * @date     Oct. 2017
+ * @date modified 2017/10/13
+ * @version 1.0.0
+ * Copyright(C) 2017
+ * All rights reserved.
+ */
+ /*****************************************************************************
+
+ */
 #include <mbed.h>
 #include <unity.h>
 #include "INAReader.h"
@@ -6,21 +20,39 @@
 #include "KeyboardController.h"
 #include "IOPins.h"
 #ifdef UNIT_TEST
+/*.......*/
 I2CPreInit i2c_object_test(I2C_SDA, I2C_SCL);
+/*.......*/
 LCDController testlcdcontroller(i2c_object_test);
+/*.......*/
 KeyboardController testkeyboard(SELECT_BUTTON_PIN, SET_BUTTON_PIN, INVERTER_ON_PIN);
+/*.......*/
 INAReader test_measurement(I2C_SDA, I2C_SCL, 0x40);
+/*.......*/
 RTC_Timer test_rtctimer;
+/************************************
+* Method:
+* Description:
+* Returns:
+* Qualifier:
+***********************************/
 void DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay(void)
 {
     /* All of these should pass */
     testlcdcontroller.SetBattVolt(10);
+    /*.......*/
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattVolt(), 10);
+    /*.......*/
     testlcdcontroller.SetBattCurr(30);
+    /*.......*/
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattCurr(), 30);
+    /*.......*/
     testlcdcontroller.SetBattPower(30);
+    /*.......*/
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattPower(), 30);
+    /*.......*/
     testlcdcontroller.SetBattEnergy(30);
+    /*.......*/
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattEnergy(), 30);
 }
 
