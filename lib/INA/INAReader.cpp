@@ -9,6 +9,22 @@
     ***********************************/
 void INAReader::Calibrate(float _shunt_value, float _max_current, float _max_voltage)
 {
+    if((16 != _max_voltage)&&(32 != _max_voltage))
+    {
+        throw "exception - max voltage must be 16V or 32V";
+    }
+    else
+    {
+        /*do nothing*/
+    }
+    if((_max_current * _shunt_value) >= 0.32)
+    {
+        throw "exception - max current exceed the bounds of the device!";
+    }
+    else
+    {
+        /*do nothing*/
+    }
     uint16_t calibrating_value;
     current_lsb = (_max_current * 1000) / 32000;
     calibrating_value = (uint16_t) 40.96 / (current_lsb * _shunt_value);
@@ -25,7 +41,7 @@ void INAReader::Calibrate(float _shunt_value, float _max_current, float _max_vol
         resolution_mask = INA219_CONFIG_BADCRES_10BIT | INA219_CONFIG_SADCRES_10BIT_1S_148US;
     else // resolution == RES_9BITS
         resolution_mask = INA219_CONFIG_BADCRES_9BIT | INA219_CONFIG_SADCRES_9BIT_1S_84US;
-    if(_max_voltage < 16)
+    if(_max_voltage <= 16)
     {
         write_register_u16(INA219_REG_CONFIG, INA219_CONFIG_BVOLTAGERANGE_16V |
                            INA219_CONFIG_GAIN_8_320MV |

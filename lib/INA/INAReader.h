@@ -34,6 +34,7 @@
  */
 #ifndef _INAREADER_H_
 #define _INAREADER_H_
+#include <cassert>
 #include <INA219.hpp>
 
 /* Class for configuration and Reading data from INA module
@@ -105,6 +106,14 @@ public:
     INAReader(PinName sda, PinName scl, int addr=0x40, int freq=100000, resolution_t res=RES_12BITS):
     INA219(sda, scl, addr, freq, res)
     {
+        if((0x40 != addr)&&(0x41 != addr)&&(0x44 != addr)&&(0x45 !=addr))
+        {
+            throw "exception - unavailable address!";
+        }
+        else
+        {
+             /*do nothing*/
+        }
         volt = 0;
         curr = 0;
         power = 0;
