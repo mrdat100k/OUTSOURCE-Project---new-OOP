@@ -1,14 +1,27 @@
 #include "mbed.h"
 #include "INAReader.h"
-    /************************************
-    * Method: INAReader::Calibration
-    * Description: Adjust measurement range
-    * Access: public
-    * Returns:
-    * Qualifier:
-    ***********************************/
+/************************************
+* Method: INAReader::Calibrate
+* Description: Calibrating INA219 according to shunt resistor value, max current value, max voltage value
+* @brief: INA219 Calibration
+* @param _shunt_value shunt resistor value
+* @param _max_current max current value that is set by user
+* @param _max_voltage max voltage value that is set by user
+* _max_voltage chỉ được đặt bằng 16V hoặc 32V.
+* Access: public
+* Returns:
+* Qualifier:
+* @Date modified 2017/10/13
+* @author Dua Nguyen
+* Exceptions:
+* 1. Setting max current value or max voltage value out of range
+*  Max current value of system equal 320/(shunt resistor value) mA
+*  Max current value (unit: Ampere) set by user have to in persissive range ( smaller than max current  of system)
+* @TODO show a notification for user when user compile
+***********************************/
 void INAReader::Calibrate(float _shunt_value, float _max_current, float _max_voltage)
 {
+    /*Ném ra một exception nếu _max_voltage không phải là 16V hoặc 32V*/
     if((16 != _max_voltage)&&(32 != _max_voltage))
     {
         throw "exception - max voltage must be 16V or 32V";
@@ -17,6 +30,7 @@ void INAReader::Calibrate(float _shunt_value, float _max_current, float _max_vol
     {
         /*do nothing*/
     }
+    /*Ném ra một exception nếu _max_current vượt quá giới hạn đo của INA219*/
     if((_max_current * _shunt_value) >= 0.32)
     {
         throw "exception - max current exceed the bounds of the device!";
