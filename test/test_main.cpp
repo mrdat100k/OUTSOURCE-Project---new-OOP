@@ -2,7 +2,7 @@
  * @file    test_main.cpp
  * @author  Dua Nguyen
  * @brief  This file include: LCD displaying test by changing
- *         timer, PV and battery parameters to show; keyboard test; 
+ *         timer, PV and battery parameters to show; keyboard test;
  *         INA219 test by calibrating, setting and reading parameters
  *         and RTC timer test.
  * TODO: long description
@@ -12,6 +12,8 @@
  * Copyright(C) 2017
  * All rights reserved.
  ****************************************************************************/
+#ifdef UNIT_TEST
+
 #include <mbed.h>
 #include <unity.h>
 #include "INAReader.h"
@@ -19,19 +21,23 @@
 #include "RTCTimer.h"
 #include "KeyboardController.h"
 #include "IOPins.h"
-#ifdef UNIT_TEST
+
 /*Initializing i2c object to serve testing process*/
 I2CPreInit i2c_object_test(I2C_SDA, I2C_SCL);
 /*Initializing a LCD object to test*/
-LCDController testlcdcontroller(i2c_object_test);
+TestLCDController testlcdcontroller(i2c_object_test);
 /*Initializing a keyboard object to test */
-KeyboardController testkeyboard(SELECT_BUTTON_PIN, SET_BUTTON_PIN, INVERTER_ON_PIN);
+TestKeyboardController testkeyboard(SELECT_BUTTON_PIN,
+SET_BUTTON_PIN,
+INVERTER_ON_PIN);
 /*Initializing a INAReader object to test*/
-INAReader test_measurement(I2C_SDA, I2C_SCL, 0x40);
+TestINAReader test_measurement(I2C_SDA, I2C_SCL, 0x40);
 /*Initializing a RTC_Timer object to test*/
-RTC_Timer test_rtctimer;
-void DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay(void)
-{   /*All of these should pass */
+TestRTC_Timer test_rtctimer;
+
+
+void setLCDSignalValues(void) {
+    /*All of these should pass */
     /*Calling SetBattVolt method of testlcdcontroller object*/
     testlcdcontroller.SetBattVolt(10);
     /*Checking new voltage value of battery */
@@ -48,10 +54,6 @@ void DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay(void)
     testlcdcontroller.SetBattEnergy(30);
     /*Checking new energy value of battery */
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattEnergy(), 30);
-}
-
-void DisplayLCD_WhenChangingPVParameters_ChangingParametersToDisplay(void)
-{   /* All of these should pass */
     /*Calling SetPVVolt method of testlcdcontroller object*/
     testlcdcontroller.SetPVVolt(10);
     /*Checking new voltage value of PV */
@@ -70,53 +72,54 @@ void DisplayLCD_WhenChangingPVParameters_ChangingParametersToDisplay(void)
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVEnergy(), 30);
 }
 
-void DisplayLCD_WhenChangingTimerParameters_ChangingParametersToDisplay(void)
-{   /*All of these should pass */
+
+void setLCDTimerValue(void) {
+    /*All of these should pass */
     /*Calling SetTime method of testlcdcontroller object*/
-    testlcdcontroller.SetTime(23,59,59);
+    testlcdcontroller.SetTime(23, 59, 59);
     /*Checking the time value set */
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 23);
 }
 
-void PressingKeyboard_WhenMenuButtonIsPressed_ChangingMenuParameter(void)
-{   /* All of these should pass */
+void pressSelectButton(void) {
+    /* All of these should pass */
     /*Calling AtTimeOut method of testkeyboard object*/
-    testkeyboard.AtTimeOut();
-    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/ 
-    testkeyboard.OnSelectButtonPressFallIsr();
-    /*Checking menu index */ 
+    testkeyboard.TestAtTimeOut();
+    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/
+    testkeyboard.TestOnSelectButtonPressFallIsr();
+    /*Checking menu index */
     TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 1);
-    testkeyboard.OnSelectButtonPressFallIsr();
+    testkeyboard.TestOnSelectButtonPressFallIsr();
     TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 2);
-    testkeyboard.OnSelectButtonPressFallIsr();
+    testkeyboard.TestOnSelectButtonPressFallIsr();
     TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 0);
 }
 
-void PressingKeyboard_WhenChangingTimerStateButtonIsPressed_ChangingTimerParameters(void)
-{   /* All of these should pass */
+void pressSetButton(void) {
+    /* All of these should pass */
     /*Calling Setmenuindex method of testkeyboard object*/
     testkeyboard.Setmenuindex(1);
-    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/ 
-    testkeyboard.OnSetButtonPressFallIsr();
+    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/
+    testkeyboard.TestOnSetButtonPressFallIsr();
     /*Checking timer status */
     TEST_ASSERT(testkeyboard.Gettimeron() == true);
     testkeyboard.Setmenuindex(2);
-    testkeyboard.OnSetButtonPressFallIsr();
+    testkeyboard.TestOnSetButtonPressFallIsr();
     TEST_ASSERT(testkeyboard.Gettimeron() == false);
 }
 
-void MethodsOfINA_WhenCallingMethods_CheckingInputValues(void)
-{   /* All of these should pass */
+void setINAOutOfRangeValue(void) {
+    /* All of these should pass */
     /*Calling Calibrate method of test_measurement object to change max voltage value,
      *max current value, shunt resistor value.
      */
-    test_measurement.Calibrate(0.1, 3.2, 32);
+    test_measurement.Calibrate(0.1, 3.19, 32);
     /*changing voltage input value*/
-    test_measurement.GetVolt(32.1);
+    test_measurement.SetVolt(32.1);
     /*changing curent input value*/
-    test_measurement.GetCurr(3.3);
+    test_measurement.SetCurr(3.3);
     test_measurement.TestScanning();
     /*Checking permission of voltage input value*/
     TEST_ASSERT(test_measurement.Get_voltage_out_of_range() == true);
@@ -124,8 +127,8 @@ void MethodsOfINA_WhenCallingMethods_CheckingInputValues(void)
     TEST_ASSERT(test_measurement.Get_current_out_of_range() == true);
 }
 
-void ResetRTCtimer_WhenResetTimer_ResetTimerValues(void)
-{   /* All of these should pass */
+void resetTimer(void) {
+    /* All of these should pass */
     /*Reseting RTC timer value*/
     test_rtctimer.Reset();
     /*checking status of RTC timer*/
@@ -138,8 +141,8 @@ void ResetRTCtimer_WhenResetTimer_ResetTimerValues(void)
     TEST_ASSERT_EQUAL_INT8(test_rtctimer.GetHour(), 0);
 }
 
-void StateTimer_WhenChangingTimerState_ChangingtimerState(void)
-{   /*All of these should pass */  
+void changeTimerState(void) {
+    /*All of these should pass */
     /*Turning on rtc timer*/
     test_rtctimer.On();
     /*checking new status of RTC timer*/
@@ -154,9 +157,9 @@ void StateTimer_WhenChangingTimerState_ChangingtimerState(void)
     TEST_ASSERT(test_rtctimer.GetState() == true);
 }
 
-void UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues(void)
-{   /*All of these should pass */ 
-    /*setting timer value*/ 
+void updateTimerValue(void) {
+    /*All of these should pass */
+    /*setting timer value*/
     set_time(43199);
     test_rtctimer.Update();
     /*checking second value of RTC timer*/
@@ -167,30 +170,32 @@ void UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues(void)
     TEST_ASSERT_EQUAL_INT8(test_rtctimer.GetHour(), 11);
 }
 
-int main()
-{  /*starting a test*/
+int main() {
+    /*starting a test*/
     UNITY_BEGIN();
 
-    RUN_TEST(DisplayLCD_WhenChangingBatteryParameters_ChangingParametersToDisplay);
+    /*===============Test LCD=============*/
+    RUN_TEST(setLCDSignalValues);
 
-    RUN_TEST(DisplayLCD_WhenChangingPVParameters_ChangingParametersToDisplay);
+    RUN_TEST(setLCDTimerValue);
 
-    RUN_TEST(DisplayLCD_WhenChangingTimerParameters_ChangingParametersToDisplay);
+    /*===============Test Keyboard========*/
+    RUN_TEST(pressSelectButton);
 
-    RUN_TEST(PressingKeyboard_WhenMenuButtonIsPressed_ChangingMenuParameter);
+    RUN_TEST(pressSetButton);
 
-    RUN_TEST(PressingKeyboard_WhenChangingTimerStateButtonIsPressed_ChangingTimerParameters);
+    /*===============Test INA Module======*/
+    RUN_TEST(setINAOutOfRangeValue);
 
-    RUN_TEST(MethodsOfINA_WhenCallingMethods_CheckingInputValues);
+    /*===============Test Timer===========*/
+    RUN_TEST(resetTimer);
 
-    RUN_TEST(ResetRTCtimer_WhenResetTimer_ResetTimerValues);
+    RUN_TEST(changeTimerState);
 
-    RUN_TEST(RUN_TEST(StateTimer_WhenChangingTimerState_ChangingtimerState);
-
-    RUN_TEST(UpdateRTCtimer_WhenUpdatingTimerValues_ChaningTimerValues);
+    RUN_TEST(updateTimerValue);
     /*finish this test*/
-    UNITY_END();
-    while(1){}
-}
 
+    UNITY_END();
+    while (1) {}
+}
 #endif

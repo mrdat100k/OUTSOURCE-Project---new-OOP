@@ -1,6 +1,6 @@
 /******************************************************************************
  * @file    KeyboardController.h
- * @author Dua Nguyen
+ * @author   Dua Nguyen
  * @brief
  * @date     Oct. 2017
  * @date modified 2017/10/13
@@ -9,8 +9,8 @@
  * All rights reserved.
  *
  *****************************************************************************/
-#ifndef _KEYBOARD_H_
-#define _KEYBOARD_H_
+#ifndef LIB_KEYBOARD_KEYBOARDCONTROLLER_H_
+#define LIB_KEYBOARD_KEYBOARDCONTROLLER_H_
 
 #include <mbed.h>
 /* Class content lcd display UI
@@ -24,9 +24,8 @@
 * @endcode
 * @ingroup module
 */
-class KeyboardController
-{
-public:
+class KeyboardController {
+ public:
     /* @param menu_index choosing menu screen
     * @param timer_on timer state
     */
@@ -44,14 +43,14 @@ public:
     * Exceptions: 1. When keyboard is not connected
     * @TODO <nothing>
     ***********************************/
+
     KeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):
     select_button(_SELECT_PIN),
     set_button(_SET_PIN),
-    inverter_on(_INVERTERON_PIN)
-    {
+    inverter_on(_INVERTERON_PIN) {
         Init();
     }
-//private:
+ protected:
     InterruptIn select_button;
     InterruptIn set_button;
     InterruptIn inverter_on;
@@ -71,11 +70,34 @@ public:
     /*Processing when a falling edge is occured by pressing inverter button*/
     void OnInverterOnPressFallIsr();
 
+};
+
+#endif /*LIB_KEYBOARD_KEYBOARDCONTROLLER_H_ */
+//
+
+//#ifdef UNIT_TEST
+
+class TestKeyboardController:public KeyboardController {
+ public:
+    TestKeyboardController(PinName _SELECT_PIN, PinName _SET_PIN, PinName _INVERTERON_PIN):KeyboardController(_SELECT_PIN,_SET_PIN,_INVERTERON_PIN){}
+
     int Getmenuindex(void);
 
     bool Gettimeron(void);
 
     void Setmenuindex(int);
-};
 
-#endif /*_KEYBOARD_H_*/
+    void TestAtTimeOut(void);
+
+    void TestOnsetButtonLongPress(void);
+
+    void TestOnSelectButtonPressFallIsr(void);
+
+    void TestOnSetButtonPressFallIsr(void);
+
+    void TestOnSetButtonPressRiseIsr(void);
+
+    void TestOnInverterOnPressFallIsr(void);
+
+};
+//#endif

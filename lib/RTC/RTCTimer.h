@@ -9,8 +9,8 @@
  * All rights reserved.
  *
  *****************************************************************************/
-#ifndef _RTCTIMER_H_
-#define _RTCTIMER_H_
+#ifndef LIB_RTC_RTCTIMER_H_
+#define LIB_RTC_RTCTIMER_H_
 #include <mbed.h>
 /* Class for configuration and Reading data from INA module
 * If this source file built with example, the <RTCTimer.h> library
@@ -24,7 +24,7 @@
 * @ingroup module
 */
 class RTC_Timer{
-public:
+ public:
     /************************************
     * Method: RTC_Timer::RTC_Timer
     * Description: RTC_Timer constructor
@@ -32,8 +32,7 @@ public:
     * Returns:
     * Qualifier:
     ************************************/
-    RTC_Timer()
-    {
+    RTC_Timer() {
         timer_state = false;
         second = 0;
         minute = 0;
@@ -41,78 +40,25 @@ public:
         day = 0;
         set_time(0);
     }
-    /************************************
-    * Method: RTC_Timer::Reset
-    * Description: reset time value
-    * Access: public
-    * Returns:
-    * Qualifier:
-    ************************************/
-    void Reset()
-    {
-        timer_state = true;
-        set_time(0);
-        second = 0;
-        minute = 0;
-        hour = 0;
-        day = 0;
-    }
-    void Off()
-    {
-        timer_state = false;
-    }
-    void On()
-    {
-        timer_state = true;
-    }
-    void ChangeState()
-    {
-        timer_state = !timer_state;
-    }
-    bool GetState()
-    {
-        return timer_state;
-    }
-    /************************************
-    * Method: RTC_Timer::Update
-    * Description: Updating second value, minute value, hour value
-    * Access: public
-    * Returns:
-    * Qualifier:
-    ************************************/
-    void Update()
-    {
-        /* Update timer*/
-        seconds = time(NULL); /*TODO: bo sung header cho ham time */
-        second = seconds % 60;
-        minute = seconds % 3600 / 60;
-        hour = seconds % 86400 / 3600;
-    }
+    void Reset(void);
+    void Off(void);
+    void On(void);
+    void ChangeState(void);
+    bool GetState(void);
+    void Update(void);
 
-    int GetSecond()
-    {
-        return second;
-    }
-
-    int GetMinute()
-    {
-        return minute;
-    }
-
-    int GetHour()
-    {
-        return hour;
-    }
-
-    uint32_t GetSecond_s()
-    {
-        return time(NULL);
-    }
-
-private:
+ protected:
     bool timer_state;
     uint8_t second, minute, hour, day;
     uint32_t seconds;
-
 };
-#endif /*_RTCTIMER_H_*/
+#endif /*LIB_RTC_RTCTIMER_H_*/
+
+class TestRTC_Timer: public RTC_Timer {
+ public:
+   TestRTC_Timer():RTC_Timer(){}
+   int GetSecond(void);
+   int GetMinute(void);
+   int GetHour(void);
+   uint32_t GetSecond_s(void);
+};

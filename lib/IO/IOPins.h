@@ -9,8 +9,8 @@
  * All rights reserved.
  *
  *****************************************************************************/
-#ifndef _IOPIN_H_
-#define _IOPIN_H_
+#ifndef LIB_IO_IOPINS_H_
+#define LIB_IO_IOPINS_H_
 /*
 *  USB pins:
 *  USB_DM = PA_11
@@ -44,4 +44,4 @@
 #define GPIO_9 PC_14
 #define GPIO_10 PC_15
 
-#endif /*_IOPIN_H_*/
+#endif /*LIB_IO_IOPINS_H_*/
