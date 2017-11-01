@@ -32,10 +32,10 @@
   *		 from corresponding register of INA219.
  *Exceptions:  INA219 module is not connected.
  */
-#ifndef _INAREADER_H_
-#define _INAREADER_H_
-#include <cassert>
+#ifndef LIB_INA_INAREADER_H_
+#define LIB_INA_INAREADER_H_
 #include <INA219.hpp>
+#include <mbed.h>
 
 /* Class for configuration and Reading data from INA module
  * If this source file built with example, the <mbed.h> and <INAReader> library
@@ -82,7 +82,7 @@
  * @ingroup module
  */
 class INAReader: private INA219{
-public:
+ public:
     /**
     *@param current_out_of_range alarm when current out of range
     *@param voltage_out_of_range alarm when voltage out of range
@@ -97,7 +97,7 @@ public:
     * @param sda data pin of i2c communication
     * @param scl clock pin of i2c communication
     * @param addr INA219 i2c address
-    * i2c address chỉ được phép đặt các giá trị sau:
+    * i2c permissive addresses:
     *    A1    |    A0    |    address
     *   GND    |   GND    |    0x40
     *   GND    |   Vs+    |    0x41
@@ -109,16 +109,13 @@ public:
     * Returns:
     * Qualifier:
     ***********************************/
-    INAReader(PinName sda, PinName scl, int addr=0x40, int freq=100000, resolution_t res=RES_12BITS):
-    INA219(sda, scl, addr, freq, res)
-    {
-        /*Ném ra một exception nếu địa chỉ không được đặt đúng*/
-        if((0x40 != addr)&&(0x41 != addr)&&(0x44 != addr)&&(0x45 !=addr))
-        {
+    INAReader(PinName sda, PinName scl, int addr = 0x40, int freq = 100000,
+    resolution_t res = RES_12BITS):
+    INA219(sda, scl, addr, freq, res) {
+        /*throw an exception when user set a wrong address*/
+        if ((0x40 != addr)&&(0x41 != addr)&&(0x44 != addr)&&(0x45 !=addr)) {
             throw "exception - unavailable address!";
-        }
-        else
-        {
+        } else {
              /*do nothing*/
         }
         volt = 0;
@@ -156,12 +153,8 @@ public:
     float GetVolt();
     float GetCurr();
     float GetPower();
-    bool Get_voltage_out_of_range();
-    bool Get_current_out_of_range();
-    void GetVolt(float value);
-    void GetCurr(float value);
-    void TestScanning();
-private:
+
+ protected:
    /**
    *@brief
    *@param volt Voltage value is read from INA module
@@ -232,7 +225,15 @@ private:
      *      A floating point value corresponding to the voltage of V+ (in V).
      */
     float read_bus_voltage();
-
-
 };
-#endif /*_INAREADER_H_*/
+#endif /*LIB_INA_INAREADER_H_*/
+
+class TestINAReader: public INAReader {
+ public:
+    TestINAReader(PinName sda, PinName scl, int addr = 0x40, int freq = 100000, resolution_t res = RES_12BITS):INAReader(sda, scl, 0x40, 100000, RES_12BITS){}
+    bool Get_voltage_out_of_range();
+    bool Get_current_out_of_range();
+    void SetVolt(float value);
+    void SetCurr(float value);
+    void TestScanning();
+};

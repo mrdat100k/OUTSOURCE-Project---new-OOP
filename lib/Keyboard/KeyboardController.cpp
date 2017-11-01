@@ -1,6 +1,15 @@
-#include "mbed.h"
+/******************************************************************************
+ * @file    KeyboardController.cpp
+ * @author   Dua Nguyen
+ * @brief
+ * @date     Oct. 2017
+ * @date modified 2017/10/13
+ * @version 1.0.0
+ * Copyright(C) 2017
+ * All rights reserved.
+ *
+ *****************************************************************************/
 #include "KeyboardController.h"
-
     /************************************
     * Method: KeyboardController::Init
     * Description: initialization pressing button event
@@ -8,8 +17,7 @@
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::Init()
-{
+void KeyboardController::Init() {
     select_button.fall(callback(this, &KeyboardController::OnSelectButtonPressFallIsr));
     set_button.fall(callback(this, &KeyboardController::OnSetButtonPressFallIsr));
     set_button.rise(callback(this, &KeyboardController::OnSetButtonPressRiseIsr));
@@ -21,8 +29,7 @@ void KeyboardController::Init()
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::AtTimeOut()
-{
+void KeyboardController::AtTimeOut() {
     /*menu_index equal 0 when skip to main menu */
     menu_index = 0;
 }
@@ -33,21 +40,16 @@ void KeyboardController::AtTimeOut()
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::OnSelectButtonPressFallIsr()
-{
+void KeyboardController::OnSelectButtonPressFallIsr() {
     select_button.disable_irq();
     time_out.attach(callback(this, &KeyboardController::AtTimeOut), 15);
     wait_ms(50);
     menu_index++;
-    if (menu_index >= 3)
-    {
+    if (menu_index >= 3) {
         menu_index = 0;
-    }
-    else
-    {
+    } else {
         /*Do nothing*/
     }
-
     select_button.enable_irq();
 }
     /************************************
@@ -57,16 +59,12 @@ void KeyboardController::OnSelectButtonPressFallIsr()
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::OnSetButtonPressFallIsr()
-{
+void KeyboardController::OnSetButtonPressFallIsr() {
     set_button.disable_irq();
-    if((1 == menu_index) || (2 == menu_index))
-    {
+    if ((1 == menu_index) || (2 == menu_index)) {
         timer_on = !timer_on;
         time_out.attach(callback(this, &KeyboardController::OnsetButtonLongPress), 2);
-    }
-    else
-    {
+    } else {
         /*Do nothing*/
     }
     set_button.enable_irq();
@@ -78,16 +76,12 @@ void KeyboardController::OnSetButtonPressFallIsr()
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::OnSetButtonPressRiseIsr()
-{
+void KeyboardController::OnSetButtonPressRiseIsr() {
     set_button.disable_irq();
     wait_ms(50);
-    if((1 == menu_index) || (2 == menu_index))
-    {
+    if ((1 == menu_index) || (2 == menu_index)) {
         time_out.attach(callback(this, &KeyboardController::AtTimeOut), 15);
-    }
-    else
-    {
+    } else {
         /*Do nothing*/
     }
     set_button.enable_irq();
@@ -99,23 +93,41 @@ void KeyboardController::OnSetButtonPressRiseIsr()
     * Returns:
     * Qualifier:
     ***********************************/
-void KeyboardController::OnsetButtonLongPress()
-{
+void KeyboardController::OnsetButtonLongPress() {
     set_time(0);
 }
+//#ifdef UNIT_TEST
 
-
-int KeyboardController::Getmenuindex(void)
-{
+int  TestKeyboardController::Getmenuindex(void) {
     return menu_index;
 }
-
-bool KeyboardController::Gettimeron(void)
-{
+bool TestKeyboardController::Gettimeron(void) {
     return timer_on;
 }
-
-void KeyboardController::Setmenuindex(int value)
-{
+void TestKeyboardController::Setmenuindex(int value) {
     menu_index = value;
 }
+void TestKeyboardController::TestAtTimeOut(void) {
+    AtTimeOut();
+}
+
+void TestKeyboardController::TestOnsetButtonLongPress(void) {
+    OnsetButtonLongPress();
+}
+
+void TestKeyboardController::TestOnSelectButtonPressFallIsr(void) {
+    OnSelectButtonPressFallIsr();
+}
+
+void TestKeyboardController::TestOnSetButtonPressFallIsr(void) {
+    OnSetButtonPressFallIsr();
+}
+
+void TestKeyboardController::TestOnSetButtonPressRiseIsr(void) {
+    OnSetButtonPressRiseIsr();
+}
+
+void TestKeyboardController::TestOnInverterOnPressFallIsr(void) {
+    OnInverterOnPressFallIsr();
+}
+//#endif
