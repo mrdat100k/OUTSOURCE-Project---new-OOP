@@ -21,14 +21,14 @@ Button::Button(PinName pin) : DigitalIn(pin) {
     mode(PullUp);
     short_press = false;
     long_press = false;
+    count = 0;
+    button_curr_state = 1;
     _tick.attach(callback(this, &Button::SampleBTN), BTN_SAMPLING_PERIOD);
 }
 // private function
 /** SampleBTN input and process */
 void Button::SampleBTN() {
-    int button_last_state;
-    static int count = 0;
-    static int button_curr_state = 1;
+
     button_last_state = button_curr_state;
     button_curr_state = read();
     if ((0 == button_curr_state)&&(0 == button_last_state)) {
