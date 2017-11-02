@@ -116,26 +116,3 @@ class LCDController : private Adafruit_SSD1306_I2c {
 };
 
 #endif /*LIB_LCD_LCDCONTROLLER_H_*/
-
-class TestLCDController: public LCDController {
- public:
-   TestLCDController(I2C &i2c, PinName RST = NC, uint8_t rawHeight = 64, uint8_t rawWidth = 128): LCDController(i2c,NC,64,128){}
-
-   float GetPVVolt(void);
-
-   float GetPVCurr(void);
-
-   float GetPVPower(void);
-
-   float GetPVEnergy(void);
-
-   float GetBattVolt(void);
-
-   float GetBattCurr(void);
-
-   float GetBattPower(void);
-
-   float GetBattEnergy(void);
-
-   int GetTime(int);
-};

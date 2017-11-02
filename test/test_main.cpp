@@ -13,15 +13,13 @@
  * All rights reserved.
  ****************************************************************************/
 #ifdef UNIT_TEST
-
 #include <mbed.h>
 #include <unity.h>
-#include "INAReader.h"
-#include "LCDController.h"
-#include "RTCTimer.h"
-#include "KeyboardController.h"
+#include "TestINAReader.h"
+#include "TestLCDController.h"
+#include "TestRTC_Timer.h"
+#include "TestKeyboardController.h"
 #include "IOPins.h"
-
 /*Initializing i2c object to serve testing process*/
 I2CPreInit i2c_object_test(I2C_SDA, I2C_SCL);
 /*Initializing a LCD object to test*/
@@ -170,6 +168,84 @@ void updateTimerValue(void) {
     TEST_ASSERT_EQUAL_INT8(test_rtctimer.GetHour(), 11);
 }
 
+void connectTestingLCDAndINA(void) { //hàm test kết nối giữa lcd và ina
+    /*changing voltage input value*/
+    test_measurement.SetVolt(15.1);
+    /*changing curent input value*/
+    test_measurement.SetCurr(1.3);
+    /*changing power input value*/
+    test_measurement.SetPower(40);
+    /*đưa các giá trị ra màn hình từ INA*/
+    testlcdcontroller.SetBattVolt(test_measurement.GetVolt());
+
+    testlcdcontroller.SetBattCurr(test_measurement.GetCurr());
+
+    testlcdcontroller.SetBattPower(test_measurement.GetPower());
+    /*kiểm tra xem giá trị của LCD đúng không*/
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattVolt(), 15.1);
+
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattCurr(), 1.3);
+
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattPower(), 40);
+    /* tương tự với PV*/
+    testlcdcontroller.SetPVVolt(test_measurement.GetVolt());
+
+    testlcdcontroller.SetPVCurr(test_measurement.GetCurr());
+
+    testlcdcontroller.SetPVPower(test_measurement.GetPower());
+
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVVolt(), 15.1);
+
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVCurr(), 1.3);
+
+    TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVPower(), 40);
+}
+
+void connectTestingLCDAndRTCTimer() { //hàm kiểm tra giữa lcd và timer
+    /*setting timer value*/
+    set_time(43199);
+    /*updating realtime clock*/
+    test_rtctimer.Update();
+    /* đặt các giá trị của RTC vào lcd*/
+    testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
+    /* Kiểm tra trên Lcd giờ phút giấy*/
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 11);
+}
+
+void connectTestingKeyboard_LCD_RTCtimer() { // kết hợp lcd timer và phim bấm
+    /*Calling Setmenuindex method of testkeyboard object*/
+    testkeyboard.Setmenuindex(1);
+    /*setting timer value*/
+    set_time(43199);
+    /*updating realtime clock*/
+    test_rtctimer.Update();
+
+    testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 11);
+    /*giữ lâu để reset timer*/
+    testkeyboard.TestOnsetButtonLongPress();
+    /*updating realtime clock*/
+    test_rtctimer.Update();
+
+    testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 0);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 0);
+
+    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 0);
+}
+
+
 int main() {
     /*starting a test*/
     UNITY_BEGIN();
@@ -193,6 +269,12 @@ int main() {
     RUN_TEST(changeTimerState);
 
     RUN_TEST(updateTimerValue);
+
+    RUN_TEST(connectTestingLCDAndINA);
+
+    RUN_TEST(connectTestingLCDAndRTCTimer);
+
+    RUN_TEST(connectTestingKeyboard_LCD_RTCtimer);
     /*finish this test*/
 
     UNITY_END();
