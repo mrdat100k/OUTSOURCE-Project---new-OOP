@@ -1,5 +1,5 @@
 /******************************************************************************
- * @file    INAReader.cpp
+ * @file    RTC_Timer.cpp
  * @author  Dua Nguyen
  * @brief    this file consist of realtime clock classes
  * @date     Oct. 2017
@@ -52,6 +52,7 @@ void RTC_Timer::Update() {
     minute = seconds % 3600 / 60;
     hour = seconds % 86400 / 3600;
 }
+
 int RTC_Timer::GetSecond() {
     return second;
 }
@@ -62,8 +63,4 @@ int RTC_Timer::GetMinute() {
 
 int RTC_Timer::GetHour() {
     return hour;
-}
-
-uint32_t RTC_Timer::GetSecond_s() {
-    return time(NULL);
 }

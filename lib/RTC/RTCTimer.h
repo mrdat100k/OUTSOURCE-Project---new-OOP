@@ -1,5 +1,5 @@
 /******************************************************************************
- * @file    INAReader.h
+ * @file    RTC_Timer.h
  * @author  Dua Nguyen
  * @brief    this file consist of realtime clock classes
  * @date     Oct. 2017
@@ -49,7 +49,6 @@ class RTC_Timer{
     int GetSecond(void);
     int GetMinute(void);
     int GetHour(void);
-    uint32_t GetSecond_s(void);
 
  protected:
     bool timer_state;
@@ -57,8 +56,3 @@ class RTC_Timer{
     uint32_t seconds;
 };
 #endif /*LIB_RTC_RTCTIMER_H_*/
-
-class TestRTC_Timer: public RTC_Timer {
- public:
-   TestRTC_Timer():RTC_Timer(){}
-};

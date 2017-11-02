@@ -227,13 +227,3 @@ class INAReader: private INA219{
     float read_bus_voltage();
 };
 #endif /*LIB_INA_INAREADER_H_*/
-
-class TestINAReader: public INAReader {
- public:
-    TestINAReader(PinName sda, PinName scl, int addr = 0x40, int freq = 100000, resolution_t res = RES_12BITS):INAReader(sda, scl, 0x40, 100000, RES_12BITS){}
-    bool Get_voltage_out_of_range();
-    bool Get_current_out_of_range();
-    void SetVolt(float value);
-    void SetCurr(float value);
-    void TestScanning();
-};

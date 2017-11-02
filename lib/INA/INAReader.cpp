@@ -1,7 +1,8 @@
 /******************************************************************************
  * @file    INAReader.cpp
  * @author   Dua Nguyen
- * @brief   Contains IO Pins map using for the demo
+ * @brief    Configuration and Reading data from INA module, uses the hardware I2C
+ * 	         available in the Maple to interact with I2C slave (INA module).
  * @date     Oct. 2017
  * @date modified 2017/10/13
  * @version 1.0.0
@@ -190,29 +191,4 @@ float INAReader::GetCurr() {
     ***********************************/
 float INAReader::GetPower() {
     return power;
-}
-
-bool TestINAReader::Get_voltage_out_of_range() {
-    return voltage_out_of_range;
-}
-bool TestINAReader::Get_current_out_of_range() {
-    return current_out_of_range;
-}
-void TestINAReader::SetVolt(float value) {
-    volt = value;
-}
-void TestINAReader::SetCurr(float value) {
-    curr = value;
-}
-void TestINAReader::TestScanning() {
-    if ( volt >= max_voltage ) {
-        voltage_out_of_range = true;
-    } else {
-        voltage_out_of_range = false;
-    }
-    if ( curr >= max_current ) {
-        current_out_of_range = true;
-    } else {
-        current_out_of_range = false;
-    }
 }
