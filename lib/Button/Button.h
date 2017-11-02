@@ -60,8 +60,17 @@ public:
  *  @param pin - button pin number (DigitalIn), the pin is PullUp internally
  */
     Button(PinName pin);
+/** @brief: Getter short_press
+ *  @return: true when button has been short pressed.
+ */
     bool GetShortPress();
+/** @brief: Getter long_press
+ *  @return: true when button has been long pressed.
+ */
     bool GetLongPress();
+/** @brief: Get button status
+ *  @return: true when button is being pressed.
+ */
     bool GetButtonState();
 };
 #endif /*LIB_BUTTON_BUTTON_H_*/

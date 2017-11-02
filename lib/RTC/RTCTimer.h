@@ -46,6 +46,10 @@ class RTC_Timer{
     void ChangeState(void);
     bool GetState(void);
     void Update(void);
+    int GetSecond(void);
+    int GetMinute(void);
+    int GetHour(void);
+    uint32_t GetSecond_s(void);
 
  protected:
     bool timer_state;
@@ -57,8 +61,4 @@ class RTC_Timer{
 class TestRTC_Timer: public RTC_Timer {
  public:
    TestRTC_Timer():RTC_Timer(){}
-   int GetSecond(void);
-   int GetMinute(void);
-   int GetHour(void);
-   uint32_t GetSecond_s(void);
 };

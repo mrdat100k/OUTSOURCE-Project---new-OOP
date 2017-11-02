@@ -52,19 +52,18 @@ void RTC_Timer::Update() {
     minute = seconds % 3600 / 60;
     hour = seconds % 86400 / 3600;
 }
-
-int TestRTC_Timer::GetSecond() {
+int RTC_Timer::GetSecond() {
     return second;
 }
 
-int TestRTC_Timer::GetMinute() {
+int RTC_Timer::GetMinute() {
     return minute;
 }
 
-int TestRTC_Timer::GetHour() {
+int RTC_Timer::GetHour() {
     return hour;
 }
 
-uint32_t TestRTC_Timer::GetSecond_s() {
+uint32_t RTC_Timer::GetSecond_s() {
     return time(NULL);
 }
