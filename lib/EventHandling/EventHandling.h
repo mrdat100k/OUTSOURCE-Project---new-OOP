@@ -24,7 +24,7 @@
  * @endcode
  */
 class EventHandling {
-private:
+protected:
     int menu_index;            /**< Chỉ màn hình nào sẽ được hiển thị */
     bool timer_is_on;          /**< true khi bật timer, false khi tắt timer */
     bool timer_reset;          /**< timer sẽ bị reset về 0 khi biến này là true */

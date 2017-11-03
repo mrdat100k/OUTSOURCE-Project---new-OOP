@@ -53,7 +53,8 @@
 #include <LCDController.h>
 #include <INAReader.h>
 #include <RTCTimer.h>
-#include <KeyboardController.h>
+#include <Button.h>
+#include <EventHandling.h>
 
 #ifndef UNIT_TEST
 
@@ -66,17 +67,19 @@ INAReader battery_measurement(I2C_SDA, I2C_SCL, 0x40);
 INAReader pv_measurement(I2C_SDA, I2C_SCL, 0x41);
 
 /*initialization keyboard object*/
-KeyboardController keyboard(SELECT_BUTTON_PIN, SET_BUTTON_PIN, INVERTER_ON_PIN);
-
+Button selecting(SELECT_BUTTON_PIN);
+Button setting(SET_BUTTON_PIN);
+Button enable_inverter(INVERTER_ON_PIN);
 /*initialization realtime clock object */
 RTC_Timer rtc_timer;
-
+/*initialization event handling object*/
+EventHandling event_handling;
 int main() {
     /*Display logo watershed on screen*/
     lcdcontroller.ShowLogo();
     /*calibrate ina219 with 0.1 ohm Shunt, max current 3.2A, max voltage 32V*/
-    battery_measurement.Calibrate(0.1, 3.2, 32);
-    pv_measurement.Calibrate(0.1, 3.2, 32);
+    battery_measurement.Calibrate(0.016, 3.2, 16);
+    pv_measurement.Calibrate(0.016, 3.2, 16);
     /*Wait for 3 seconds*/
     wait(3);
     while (true) {
@@ -85,6 +88,22 @@ int main() {
         pv_measurement.Scan();
         /*updating realtime clock*/
         rtc_timer.Update();
+        /*Scan triggers*/
+        event_handling.SwitchMenuTrigger(selecting.GetShortPress());
+        event_handling.TimerIsOnTrigger(setting.GetShortPress());
+        event_handling.TimerResetTrigger(setting.GetLongPress());
+        event_handling.InverterTurnOnTrigger(enable_inverter.GetShortPress());
+        /*handling events*/
+        if (event_handling.GetTimerIsOn()) {
+            rtc_timer.On();
+        } else {
+            rtc_timer.Off();
+        }
+        if (event_handling.GetTimerReset()) {
+            rtc_timer.Reset();
+        } else {
+          /* do nothing*/
+        }
         /*updating properties of lcd object */
         lcdcontroller.SetBattVolt(battery_measurement.GetVolt());
         lcdcontroller.SetBattCurr(battery_measurement.GetCurr());
@@ -94,7 +113,7 @@ int main() {
         lcdcontroller.SetPVPower(pv_measurement.GetPower());
         lcdcontroller.SetTime(rtc_timer.GetHour(), rtc_timer.GetMinute(), rtc_timer.GetSecond());
         /*selecting screen to display*/
-        lcdcontroller.UpdateScreen(keyboard.menu_index);
+        lcdcontroller.UpdateScreen(event_handling.GetMenuIndex());
     }
 }
 #endif /*UNIT_TEST*/

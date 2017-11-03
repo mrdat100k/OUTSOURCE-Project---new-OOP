@@ -18,21 +18,23 @@
 #include "TestINAReader.h"
 #include "TestLCDController.h"
 #include "TestRTC_Timer.h"
-#include "TestKeyboardController.h"
+#include "TestButton.h"
+#include "TestEventHandling.h"
 #include "IOPins.h"
 /*Initializing i2c object to serve testing process*/
 I2CPreInit i2c_object_test(I2C_SDA, I2C_SCL);
 /*Initializing a LCD object to test*/
 TestLCDController testlcdcontroller(i2c_object_test);
-/*Initializing a keyboard object to test */
-TestKeyboardController testkeyboard(SELECT_BUTTON_PIN,
-SET_BUTTON_PIN,
-INVERTER_ON_PIN);
+/*Initializing buttons object to test */
+TestButton testselecting(SELECT_BUTTON_PIN);
+TestButton testsetting(SET_BUTTON_PIN);
+TestButton testenable_inverter(INVERTER_ON_PIN);
 /*Initializing a INAReader object to test*/
 TestINAReader test_measurement(I2C_SDA, I2C_SCL, 0x40);
 /*Initializing a RTC_Timer object to test*/
 TestRTC_Timer test_rtctimer;
-
+/*Initializing events to test*/
+TestEventHandling testeventhandling;
 
 void setLCDSignalValues(void) {
     /*All of these should pass */
@@ -77,36 +79,58 @@ void setLCDTimerValue(void) {
     testlcdcontroller.SetTime(23, 59, 59);
     /*Checking the time value set */
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
+
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
+
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 23);
 }
 
 void pressSelectButton(void) {
-    /* All of these should pass */
-    /*Calling AtTimeOut method of testkeyboard object*/
-    testkeyboard.TestAtTimeOut();
-    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/
-    testkeyboard.TestOnSelectButtonPressFallIsr();
-    /*Checking menu index */
-    TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 1);
-    testkeyboard.TestOnSelectButtonPressFallIsr();
-    TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 2);
-    testkeyboard.TestOnSelectButtonPressFallIsr();
-    TEST_ASSERT_EQUAL_INT8(testkeyboard.Getmenuindex(), 0);
+    // kiểm tra khi được bấm có tăng biến đếm count không
+    testselecting.SetCount(0);
+    testselecting.SetButtonLastState(false);
+    testselecting.SetButtonCurrentState(false);
+    testselecting.TestSampleBTN();
+    TEST_ASSERT_EQUAL_INT8(testselecting.GetCount(),1);
+    // nhấc nút bấm thì kiểm tra xem phím được nhấn nhanh không
+    testselecting.SetButtonCurrentState(true);
+    testselecting.TestSampleBTN();
+    TEST_ASSERT(testselecting.GetShortPress() == true);
+    // tăng count kiểm tra nhấn lâu
+    testselecting.SetCount(151);
+    testselecting.TestSampleBTN();
+    TEST_ASSERT(testselecting.GetLongPress() == true);
 }
 
 void pressSetButton(void) {
-    /* All of these should pass */
-    /*Calling Setmenuindex method of testkeyboard object*/
-    testkeyboard.Setmenuindex(1);
-    /*Calling OnSelectButtonPressFallIsr method of testkeyboard object*/
-    testkeyboard.TestOnSetButtonPressFallIsr();
-    /*Checking timer status */
-    TEST_ASSERT(testkeyboard.Gettimeron() == true);
-    testkeyboard.Setmenuindex(2);
-    testkeyboard.TestOnSetButtonPressFallIsr();
-    TEST_ASSERT(testkeyboard.Gettimeron() == false);
+    // tương tự với các phím còn lại
+    testsetting.SetCount(0);
+    testsetting.SetButtonLastState(false);
+    testsetting.SetButtonCurrentState(false);
+    testsetting.TestSampleBTN();
+    TEST_ASSERT_EQUAL_INT8(testsetting.GetCount(),1);
+    testsetting.SetButtonCurrentState(true);
+    testsetting.TestSampleBTN();
+    TEST_ASSERT(testsetting.GetShortPress() == true);
+    testsetting.SetCount(151);
+    testsetting.TestSampleBTN();
+    TEST_ASSERT(testsetting.GetLongPress() == true);
 }
+
+void pressEnableInverterButton(void) {
+    testenable_inverter.SetCount(0);
+    testenable_inverter.SetButtonLastState(false);
+    testenable_inverter.SetButtonCurrentState(false);
+    testenable_inverter.TestSampleBTN();
+    TEST_ASSERT_EQUAL_INT8(testenable_inverter.GetCount(),1);
+    testenable_inverter.SetButtonCurrentState(true);
+    testenable_inverter.TestSampleBTN();
+    TEST_ASSERT(testenable_inverter.GetShortPress() == true);
+    testenable_inverter.SetCount(151);
+    testenable_inverter.TestSampleBTN();
+    TEST_ASSERT(testenable_inverter.GetLongPress() == true);
+}
+
 
 void setINAOutOfRangeValue(void) {
     /* All of these should pass */
@@ -216,33 +240,58 @@ void connectTestingLCDAndRTCTimer() { //hàm kiểm tra giữa lcd và timer
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 11);
 }
 
-void connectTestingKeyboard_LCD_RTCtimer() { // kết hợp lcd timer và phim bấm
-    /*Calling Setmenuindex method of testkeyboard object*/
-    testkeyboard.Setmenuindex(1);
-    /*setting timer value*/
-    set_time(43199);
-    /*updating realtime clock*/
-    test_rtctimer.Update();
+void testSwitchMenu() {
+    // test đổi màn hình menu
+    testeventhandling.SwitchMenuTrigger(false);
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
+    testeventhandling.SwitchMenuTrigger(true);
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 1);
+    testeventhandling.SwitchMenuTrigger(true);
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 2);
+    testeventhandling.SwitchMenuTrigger(true);
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
+}
+void testEventTimer() {
+    //test on off timer
+    testeventhandling.InverterTurnOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
+    testeventhandling.InverterTurnOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetInverterTurnOn() == false);
+    testeventhandling.InverterTurnOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
+    // test callback menu về màn hình đầu
+    testeventhandling.TestTimeoutCallback();
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
+}
 
-    testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 11);
-    /*giữ lâu để reset timer*/
-    testkeyboard.TestOnsetButtonLongPress();
-    /*updating realtime clock*/
-    test_rtctimer.Update();
-
-    testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 0);
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 0);
-
-    TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(2), 0);
+void connectTestingButtonAndEventHandling() {
+    //cho event nhấn nahnh thực hiện xem có đổi màn hình không
+    testselecting.SetButtonLastState(false);
+    testselecting.SetButtonCurrentState(true);
+    testselecting.SetCount(10);
+    testselecting.TestSampleBTN();
+    testeventhandling.SwitchMenuTrigger(testselecting.GetShortPress());
+    TEST_ASSERT(testeventhandling.GetMenuIndex() == 1);
+    // tương tự với setbutton xem có đổi on off timer không
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
+    testsetting.SetButtonLastState(false);
+    testsetting.SetButtonCurrentState(true);
+    testsetting.SetCount(10);
+    testsetting.TestSampleBTN();
+    testeventhandling.TimerIsOnTrigger(testsetting.GetShortPress());
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
+    // giữ lâu xem có resettimer không
+    testsetting.SetCount(151);
+    testsetting.TestSampleBTN();
+    testeventhandling.TimerResetTrigger(testsetting.GetLongPress());
+    TEST_ASSERT(testeventhandling.GetTimerReset() == true);
+    //event on off inverter
+    testenable_inverter.SetButtonLastState(false);
+    testenable_inverter.SetButtonCurrentState(true);
+    testenable_inverter.SetCount(10);
+    testenable_inverter.TestSampleBTN();
+    testeventhandling.InverterTurnOnTrigger(testenable_inverter.GetShortPress());
+    TEST_ASSERT(testeventhandling.GetInverterTurnOn() == false);
 }
 
 
@@ -255,12 +304,14 @@ int main() {
 
     RUN_TEST(setLCDTimerValue);
 
-    /*===============Test Keyboard========*/
+    /*===============Test Button========*/
     RUN_TEST(pressSelectButton);
 
     RUN_TEST(pressSetButton);
 
+    RUN_TEST(pressEnableInverterButton);
     /*===============Test INA Module======*/
+
     RUN_TEST(setINAOutOfRangeValue);
 
     /*===============Test Timer===========*/
@@ -270,11 +321,15 @@ int main() {
 
     RUN_TEST(updateTimerValue);
 
+    RUN_TEST(testSwitchMenu);
+
+    RUN_TEST(testEventTimer);
+
     RUN_TEST(connectTestingLCDAndINA);
 
     RUN_TEST(connectTestingLCDAndRTCTimer);
 
-    RUN_TEST(connectTestingKeyboard_LCD_RTCtimer);
+    RUN_TEST(connectTestingButtonAndEventHandling);
     /*finish this test*/
 
     UNITY_END();

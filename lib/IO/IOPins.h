@@ -28,7 +28,7 @@
 /*Button Inputs*/
 #define SELECT_BUTTON_PIN PB_0
 #define SET_BUTTON_PIN PB_1
-#define INVERTER_ON_PIN PB_2
+#define INVERTER_ON_PIN PB_3
 /*Digital Output*/
 #define INVERTER_ENABLE_PIN PA_1
 /*GPIO*/

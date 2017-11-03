@@ -43,7 +43,7 @@
  * @endcode
  */
 class Button : public DigitalIn {
-private:
+protected:
 /** SampleBTN input and process */
     void SampleBTN();
     Ticker _tick;
@@ -53,6 +53,9 @@ private:
     bool long_press;    /*!< long_press represents that the button has been long pressed.
                           *  @retval true - button has been long pressed
                           */
+    int button_last_state;
+    int count;
+    int button_curr_state;
 
 public:
 /** constructor
