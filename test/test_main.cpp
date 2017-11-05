@@ -251,8 +251,8 @@ void testSwitchMenu() {
     testeventhandling.SwitchMenuTrigger(true);
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
 }
-void testEventTimer() {
-    //test on off timer
+void testEventInverter() {
+    //test on off Inverter
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
     testeventhandling.InverterTurnOnTrigger(true);
@@ -323,7 +323,7 @@ int main() {
 
     RUN_TEST(testSwitchMenu);
 
-    RUN_TEST(testEventTimer);
+    RUN_TEST(testEventInverter);
 
     RUN_TEST(connectTestingLCDAndINA);
 
