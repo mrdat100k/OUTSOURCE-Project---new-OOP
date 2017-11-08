@@ -88,31 +88,31 @@ void setLCDTimerValue(void) {
 void pressSelectButton(void) {
     /* checking increasing of count parameter when button is pressed
      * description:
-     * Initializing count = 0 then setting last state and current state of button to low 
-     * then checking increasing of count parameter. 
-     */  
+     * Initializing count = 0 then setting last state and current state of button to low
+     * then checking increasing of count parameter.
+     */
     testselecting.SetCount(0);
     testselecting.SetButtonLastState(false);
     testselecting.SetButtonCurrentState(false);
     testselecting.TestSampleBTN();
-    TEST_ASSERT_EQUAL_INT8(testselecting.GetCount(),1);
-    //checking shortpress state (when count <150 ). in this case, count=1.
+    TEST_ASSERT_EQUAL_INT8(testselecting.GetCount(), 1);
+    // checking shortpress state (when count <150 ). in this case, count=1.
     testselecting.SetButtonCurrentState(true);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetShortPress() == true);
-    //setting count=151, then checking longpress state.
+    // setting count=151, then checking longpress state.
     testselecting.SetCount(151);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetLongPress() == true);
 }
 
 void pressSetButton(void) {
-    //familiar with extant button
+    // familiar with extant button
     testsetting.SetCount(0);
     testsetting.SetButtonLastState(false);
     testsetting.SetButtonCurrentState(false);
     testsetting.TestSampleBTN();
-    TEST_ASSERT_EQUAL_INT8(testsetting.GetCount(),1);
+    TEST_ASSERT_EQUAL_INT8(testsetting.GetCount(), 1);
     testsetting.SetButtonCurrentState(true);
     testsetting.TestSampleBTN();
     TEST_ASSERT(testsetting.GetShortPress() == true);
@@ -126,7 +126,7 @@ void pressEnableInverterButton(void) {
     testenable_inverter.SetButtonLastState(false);
     testenable_inverter.SetButtonCurrentState(false);
     testenable_inverter.TestSampleBTN();
-    TEST_ASSERT_EQUAL_INT8(testenable_inverter.GetCount(),1);
+    TEST_ASSERT_EQUAL_INT8(testenable_inverter.GetCount(), 1);
     testenable_inverter.SetButtonCurrentState(true);
     testenable_inverter.TestSampleBTN();
     TEST_ASSERT(testenable_inverter.GetShortPress() == true);
@@ -196,7 +196,7 @@ void updateTimerValue(void) {
     TEST_ASSERT_EQUAL_INT8(test_rtctimer.GetHour(), 11);
 }
 
-void connectTestingLCDAndINA(void) { //hàm test kết nối giữa lcd và ina
+void connectTestingLCDAndINA(void) {    // hàm test kết nối giữa lcd và ina
     /*changing voltage input value*/
     test_measurement.SetVolt(15.1);
     /*changing curent input value*/
@@ -229,7 +229,7 @@ void connectTestingLCDAndINA(void) { //hàm test kết nối giữa lcd và ina
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetPVPower(), 40);
 }
 
-void connectTestingLCDAndRTCTimer() { //hàm kiểm tra giữa lcd và timer
+void connectTestingLCDAndRTCTimer() {    // hàm kiểm tra giữa lcd và timer
     /*setting timer value*/
     set_time(43199);
     /*updating realtime clock*/
@@ -256,16 +256,16 @@ void testSwitchMenu() {
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
 }
 void testEventInverter() {
-    //test on off event inverter 
+    // test on off event inverter
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == false);
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
-} 
+}
 void testEventTimer() {
-    //test on off event timer
+    // test on off event timer
     testeventhandling.TimerIsOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
     testeventhandling.TimerIsOnTrigger(true);
@@ -278,7 +278,7 @@ void testEventTimer() {
 }
 
 void connectTestingButtonAndEventHandling() {
-    //check changing menu display when shortpress event is occur.
+    // check changing menu display when shortpress event is occur.
     testselecting.SetButtonLastState(false);
     testselecting.SetButtonCurrentState(true);
     testselecting.SetCount(10);
@@ -298,7 +298,7 @@ void connectTestingButtonAndEventHandling() {
     testsetting.TestSampleBTN();
     testeventhandling.TimerResetTrigger(testsetting.GetLongPress());
     TEST_ASSERT(testeventhandling.GetTimerReset() == true);
-    //event on off inverter
+    // event on off inverter
     testenable_inverter.SetButtonLastState(false);
     testenable_inverter.SetButtonCurrentState(true);
     testenable_inverter.SetCount(10);

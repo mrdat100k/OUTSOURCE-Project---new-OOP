@@ -16,7 +16,7 @@
 
 class TestEventHandling: public EventHandling {
  public:
-    TestEventHandling():EventHandling(){}
+    TestEventHandling():EventHandling() {}
 
     void TestTimeoutCallback();
 };

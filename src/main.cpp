@@ -42,7 +42,7 @@
    Hardware setup:
    SELECT_BUTTON_PIN ------------PB_0
    SET_BUTTON_PIN ---------------PB_1
-   INVERTER_ON_PIN --------------PB_2
+   INVERTER_ON_PIN --------------PB_3
   */
  /*****************************************************************************
   * RTCtimer functionality including count a period time to calculate energy of battery
@@ -57,6 +57,9 @@
 #include <EventHandling.h>
 
 #ifndef UNIT_TEST
+#define SHUNT_RES_VALUE 0.016
+#define MAX_CURRENT_VALUE 3.2
+#define MAX_VOLTAGE_VALUE 16
 
 /*initialization lcd object*/
 I2CPreInit i2c_object(I2C_SDA, I2C_SCL);
@@ -64,28 +67,28 @@ LCDController lcdcontroller(i2c_object);
 
 /*initialization current, voltage measuring object*/
 INAReader battery_measurement(I2C_SDA, I2C_SCL, 0x40);
-INAReader pv_measurement(I2C_SDA, I2C_SCL, 0x41);
 
 /*initialization keyboard object*/
 Button selecting(SELECT_BUTTON_PIN);
 Button setting(SET_BUTTON_PIN);
 Button enable_inverter(INVERTER_ON_PIN);
-/*initialization realtime clock object */
-RTC_Timer rtc_timer;
+
 /*initialization event handling object*/
 EventHandling event_handling;
+
+/*initialization realtime clock object */
+RTC_Timer rtc_timer;
+
 int main() {
     /*Display logo watershed on screen*/
     lcdcontroller.ShowLogo();
-    /*calibrate ina219 with 0.1 ohm Shunt, max current 3.2A, max voltage 32V*/
-    battery_measurement.Calibrate(0.016, 3.2, 16);
-    pv_measurement.Calibrate(0.016, 3.2, 16);
+    /*calibrate ina219 with Shunt resistor value, max current value, max voltage value*/
+    battery_measurement.Calibrate(SHUNT_RES_VALUE, MAX_CURRENT_VALUE, MAX_VOLTAGE_VALUE);
     /*Wait for 3 seconds*/
     wait(3);
     while (true) {
         /*Reading values from INA module*/
         battery_measurement.Scan();
-        pv_measurement.Scan();
         /*updating realtime clock*/
         rtc_timer.Update();
         /*Scan triggers*/
@@ -108,9 +111,6 @@ int main() {
         lcdcontroller.SetBattVolt(battery_measurement.GetVolt());
         lcdcontroller.SetBattCurr(battery_measurement.GetCurr());
         lcdcontroller.SetBattPower(battery_measurement.GetPower());
-        lcdcontroller.SetPVVolt(pv_measurement.GetVolt());
-        lcdcontroller.SetPVCurr(pv_measurement.GetCurr());
-        lcdcontroller.SetPVPower(pv_measurement.GetPower());
         lcdcontroller.SetTime(rtc_timer.GetHour(), rtc_timer.GetMinute(), rtc_timer.GetSecond());
         /*selecting screen to display*/
         lcdcontroller.UpdateScreen(event_handling.GetMenuIndex());

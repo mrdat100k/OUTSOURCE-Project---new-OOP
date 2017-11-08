@@ -50,8 +50,8 @@ bool EventHandling::GetTimerReset() {
 bool EventHandling::GetInverterTurnOn() {
     return inverter_turn_on;
 }
-/** @brief: Thay đổi trạng thái màn hình menu_index
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for menu_index
+ *  @param: trigger - input actor switch screen
  */
 void EventHandling::SwitchMenuTrigger(bool trigger) {
     if (true == trigger) {
@@ -66,8 +66,8 @@ void EventHandling::SwitchMenuTrigger(bool trigger) {
       /* do nothing */
     }
 }
-/** @brief: Thay đổi trạng thái biến timer_is_on
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for timer_is_on
+ *  @param: trigger - input actor change timer status.
  */
 void EventHandling::TimerIsOnTrigger(bool trigger) {
     if ((true == trigger)&&(menu_index != 0)) {
@@ -77,8 +77,8 @@ void EventHandling::TimerIsOnTrigger(bool trigger) {
       /* do nothing */
     }
 }
-/** @brief: Thay đổi trạng thái biến timer_reset
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for timer_reset
+ *  @param: trigger - input actor reset timer.
  */
 void EventHandling::TimerResetTrigger(bool trigger) {
     if ((true == trigger)&&(menu_index != 0)) {
@@ -88,8 +88,8 @@ void EventHandling::TimerResetTrigger(bool trigger) {
       /* do nothing */
     }
 }
-/** @brief: Thay đổi trạng thái biến inverter_turn_on
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for inverter_turn_on
+ *  @param: trigger - input actor turn on/off inverter.
  */
 void EventHandling::InverterTurnOnTrigger(bool trigger) {
     if (true == trigger) {
@@ -99,7 +99,7 @@ void EventHandling::InverterTurnOnTrigger(bool trigger) {
       /* do nothing */
     }
 }
-/** @brief: Hàm này sẽ được gọi khi time out
+/** @brief: function will be call when time out
  */
 void EventHandling::TimeoutCallback() {
     menu_index = 0;

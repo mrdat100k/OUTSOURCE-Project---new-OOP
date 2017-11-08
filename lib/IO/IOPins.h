@@ -19,12 +19,13 @@
 *  I2C:
 *  I2C_SCL = PB_6
 *  I2C_SDA = PB_7
-*  SPI for SDIO interface:
-*  SPI_MOSI = PB_5
-*  SPI_MISO = PB_4
-*  SPI_SCK = PB_3
-*  SPI_CS = PA_11
 */
+/*SPI for SDIO interface: */
+#define SDIO_MOSI PA_7
+#define SDIO_MISO PA_6
+#define SDIO_SCK PA_5
+#define SDIO_CS PA_4
+
 /*Button Inputs*/
 #define SELECT_BUTTON_PIN PB_0
 #define SET_BUTTON_PIN PB_1

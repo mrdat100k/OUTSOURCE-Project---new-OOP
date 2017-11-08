@@ -40,7 +40,7 @@ class I2CPreInit : public I2C {
 * @endcode
 * @ingroup module
 */
-class LCDController : private Adafruit_SSD1306_I2c {
+class LCDController : public Adafruit_SSD1306_I2c {
  public:
     /************************************
     * Method: LCDController::LCDController

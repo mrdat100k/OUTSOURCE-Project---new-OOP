@@ -159,7 +159,7 @@ void LCDController::UpdateScreen(uint8_t screen_index) {
             WriteAtPosition(5, buff);
             WriteAtPosition(6, "6");
             WriteAtPosition(7, "Power");
-            snprintf(buff, sizeof(buff), "%2.1fW ", pv_power);
+            snprintf(buff, sizeof(buff), "%2.1fW ", pv_power/1000);
             WriteAtPosition(8, buff);
             WriteAtPosition(9, "9");
             WriteAtPosition(10, "Energy");
@@ -185,7 +185,7 @@ void LCDController::UpdateScreen(uint8_t screen_index) {
             snprintf(buff, sizeof(buff), "%2.1f V ", battery_volt/1000);
             WriteAtPosition(2, buff);
             /* Update battery power*/
-            snprintf(buff, sizeof(buff), "%2.1fW ", battery_power);
+            snprintf(buff, sizeof(buff), "%2.1fW ", battery_power/1000);
             WriteAtPosition(8, buff);
             /* Update battery energy */
             snprintf(buff, sizeof(buff), "%3.1fWh", battery_energy);

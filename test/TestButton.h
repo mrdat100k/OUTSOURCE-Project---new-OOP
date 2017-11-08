@@ -15,7 +15,7 @@
 #ifdef UNIT_TEST
 class TestButton : public Button {
  public:
-    TestButton(PinName pin) : Button(pin) {}
+    explicit TestButton(PinName pin): Button(pin) {}
 
     void TestSampleBTN();
 
@@ -26,7 +26,6 @@ class TestButton : public Button {
     void SetCount(int value);
 
     int GetCount(void);
-
 };
 #endif /*UNIT_TEST*/
 #endif /*TEST_TESTBUTTON_H_*/

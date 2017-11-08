@@ -19,7 +19,7 @@ void TestButton::TestSampleBTN(void) {
         /*do nothing*/
     }
     if ((1 == button_curr_state)&&(0 == button_last_state)) {
-        if(count < 150) {
+        if (count < 150) {
             short_press = true;
         } else {
             long_press = true;
@@ -39,7 +39,7 @@ void TestButton::SetButtonCurrentState(bool value) {
 }
 
 void TestButton::SetCount(int value) {
-    count = value ;
+    count = value;
 }
 
 int TestButton::GetCount(void) {

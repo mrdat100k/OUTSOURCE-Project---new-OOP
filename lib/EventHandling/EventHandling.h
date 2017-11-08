@@ -14,23 +14,20 @@
 #include "mbed.h"
 #define TIMEOUT_PERIOD 15
 /** Class: EventHandling
- *  A class handles các sự kiện xuất hiện trong quá trình hệ thống hoạt động
- * như một nút nhấn được bấm, các sự cố quá dòng, quá áp, các exception xảy ra
- * trong quá trình hoạt động nhằm thay đổi trạng thái hệ thống tương ứng với
- * từng sự kiện.
+ *  A class handles all actor of system
  * Example:
  * @code
-
+ * @TODO: update
  * @endcode
  */
 class EventHandling {
-protected:
-    int menu_index;            /**< Chỉ màn hình nào sẽ được hiển thị */
-    bool timer_is_on;          /**< true khi bật timer, false khi tắt timer */
-    bool timer_reset;          /**< timer sẽ bị reset về 0 khi biến này là true */
+private:
+    int menu_index;            /**< screen selected */
+    bool timer_is_on;          /**< true is turn on timer, false is turn of timer */
+    bool timer_reset;          /**< timer will be reset if this varible is true */
     bool inverter_turn_on;     /**< turns on digital output for AC/DC inverter */
     Timeout time_out;
-/** @brief: Hàm này sẽ được gọi khi time out
+/** @brief: This function will be call when time out
  */
     void TimeoutCallback();
 public:
@@ -59,20 +56,20 @@ public:
  *  @return: true - turns on digital output for AC/DC inverter.
  */
     bool GetInverterTurnOn();
-/** @brief: Thay đổi trạng thái màn hình menu_index
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for menu_index
+ *  @param: trigger - input actor switch screen.
  */
     void SwitchMenuTrigger(bool trigger);
-/** @brief: Thay đổi trạng thái biến timer_is_on
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for timer_is_on
+ *  @param: trigger - input actor change timer status.
  */
     void TimerIsOnTrigger(bool trigger);
-/** @brief: Thay đổi trạng thái biến timer_reset
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for timer_reset
+ *  @param: trigger - input actor reset timer.
  */
     void TimerResetTrigger(bool trigger);
-/** @brief: Thay đổi trạng thái biến inverter_turn_on
- *  @param: trigger tác nhân thay đổi trạng thái.
+/** @brief: Read input actor for inverter_turn_on
+ *  @param: trigger - input actor turn on/off inverter.
  */
     void InverterTurnOnTrigger(bool trigger);
 
