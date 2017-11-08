@@ -263,7 +263,7 @@ void testEventInverter() {
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == false);
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
-}
+} 
 void testEventTimer() {
     //test on off event timer
     testeventhandling.TimerIsOnTrigger(true);
