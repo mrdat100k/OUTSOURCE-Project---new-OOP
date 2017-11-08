@@ -86,17 +86,21 @@ void setLCDTimerValue(void) {
 }
 
 void pressSelectButton(void) {
-    // kiểm tra khi được bấm có tăng biến đếm count không
+    /* kiểm tra khi phím select được bấm có tăng biến đếm count không
+	   mô tả:
+	   cho biến count = 0 sau đó khi nút được bấm thì trạng thái phím lúc trước và hiện tại đều
+	   bằng đưa xuống mức thấp kiểm tra lại biến điếm count xem có được tăng không.(kiểm tra với 1)
+	*/  
     testselecting.SetCount(0);
     testselecting.SetButtonLastState(false);
     testselecting.SetButtonCurrentState(false);
     testselecting.TestSampleBTN();
     TEST_ASSERT_EQUAL_INT8(testselecting.GetCount(),1);
-    // nhấc nút bấm thì kiểm tra xem phím được nhấn nhanh không
+    // kiểm tra xem phím được bấm nhanh (shortpress) hay không khi count <150 (count=1)
     testselecting.SetButtonCurrentState(true);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetShortPress() == true);
-    // tăng count kiểm tra nhấn lâu
+    // set count=151 kiểm tra xem phím có phải là giữ hay không
     testselecting.SetCount(151);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetLongPress() == true);
@@ -252,13 +256,22 @@ void testSwitchMenu() {
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
 }
 void testEventInverter() {
-    //test on off Inverter
+    //test on off event inverter 
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == false);
     testeventhandling.InverterTurnOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetInverterTurnOn() == true);
+}
+void testEventTimer() {
+    //test on off event timer
+    testeventhandling.TimerIsOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
+    testeventhandling.TimerIsOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
+    testeventhandling.TimerIsOnTrigger(true);
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
     // test callback menu về màn hình đầu
     testeventhandling.TestTimeoutCallback();
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
@@ -322,6 +335,8 @@ int main() {
     RUN_TEST(updateTimerValue);
 
     RUN_TEST(testSwitchMenu);
+
+    RUN_TEST(testEventTimer);
 
     RUN_TEST(testEventInverter);
 
