@@ -86,28 +86,28 @@ void setLCDTimerValue(void) {
 }
 
 void pressSelectButton(void) {
-    /* kiểm tra khi phím select được bấm có tăng biến đếm count không
-	   mô tả:
-	   cho biến count = 0 sau đó khi nút được bấm thì trạng thái phím lúc trước và hiện tại đều
-	   bằng đưa xuống mức thấp kiểm tra lại biến điếm count xem có được tăng không.(kiểm tra với 1)
-	*/  
+    /* checking increasing of count parameter when button is pressed
+     * description:
+     * Initializing count = 0 then setting last state and current state of button to low 
+     * then checking increasing of count parameter. 
+     */  
     testselecting.SetCount(0);
     testselecting.SetButtonLastState(false);
     testselecting.SetButtonCurrentState(false);
     testselecting.TestSampleBTN();
     TEST_ASSERT_EQUAL_INT8(testselecting.GetCount(),1);
-    // kiểm tra xem phím được bấm nhanh (shortpress) hay không khi count <150 (count=1)
+    //checking shortpress state (when count <150 ). in this case, count=1.
     testselecting.SetButtonCurrentState(true);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetShortPress() == true);
-    // set count=151 kiểm tra xem phím có phải là giữ hay không
+    //setting count=151, then checking longpress state.
     testselecting.SetCount(151);
     testselecting.TestSampleBTN();
     TEST_ASSERT(testselecting.GetLongPress() == true);
 }
 
 void pressSetButton(void) {
-    // tương tự với các phím còn lại
+    //familiar with extant button
     testsetting.SetCount(0);
     testsetting.SetButtonLastState(false);
     testsetting.SetButtonCurrentState(false);
@@ -203,19 +203,19 @@ void connectTestingLCDAndINA(void) { //hàm test kết nối giữa lcd và ina
     test_measurement.SetCurr(1.3);
     /*changing power input value*/
     test_measurement.SetPower(40);
-    /*đưa các giá trị ra màn hình từ INA*/
+    /*displaying INA219 values*/
     testlcdcontroller.SetBattVolt(test_measurement.GetVolt());
 
     testlcdcontroller.SetBattCurr(test_measurement.GetCurr());
 
     testlcdcontroller.SetBattPower(test_measurement.GetPower());
-    /*kiểm tra xem giá trị của LCD đúng không*/
+    /*checking INA219 values on LCD*/
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattVolt(), 15.1);
 
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattCurr(), 1.3);
 
     TEST_ASSERT_EQUAL_FLOAT(testlcdcontroller.GetBattPower(), 40);
-    /* tương tự với PV*/
+    /* the same with PV*/
     testlcdcontroller.SetPVVolt(test_measurement.GetVolt());
 
     testlcdcontroller.SetPVCurr(test_measurement.GetCurr());
@@ -234,9 +234,9 @@ void connectTestingLCDAndRTCTimer() { //hàm kiểm tra giữa lcd và timer
     set_time(43199);
     /*updating realtime clock*/
     test_rtctimer.Update();
-    /* đặt các giá trị của RTC vào lcd*/
+    /*setting RTC values for LCD object*/
     testlcdcontroller.SetTime(test_rtctimer.GetHour(), test_rtctimer.GetMinute(), test_rtctimer.GetSecond());
-    /* Kiểm tra trên Lcd giờ phút giấy*/
+    /* Checking RTC values on LCD*/
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(0), 59);
 
     TEST_ASSERT_EQUAL_INT8(testlcdcontroller.GetTime(1), 59);
@@ -245,7 +245,7 @@ void connectTestingLCDAndRTCTimer() { //hàm kiểm tra giữa lcd và timer
 }
 
 void testSwitchMenu() {
-    // test đổi màn hình menu
+    // testing switch menu display
     testeventhandling.SwitchMenuTrigger(false);
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
     testeventhandling.SwitchMenuTrigger(true);
@@ -272,20 +272,20 @@ void testEventTimer() {
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
     testeventhandling.TimerIsOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
-    // test callback menu về màn hình đầu
+    // test callback first menu display
     testeventhandling.TestTimeoutCallback();
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 0);
 }
 
 void connectTestingButtonAndEventHandling() {
-    //cho event nhấn nahnh thực hiện xem có đổi màn hình không
+    //check changing menu display when shortpress event is occur.
     testselecting.SetButtonLastState(false);
     testselecting.SetButtonCurrentState(true);
     testselecting.SetCount(10);
     testselecting.TestSampleBTN();
     testeventhandling.SwitchMenuTrigger(testselecting.GetShortPress());
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 1);
-    // tương tự với setbutton xem có đổi on off timer không
+    // checking timer sate when pressing button
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
     testsetting.SetButtonLastState(false);
     testsetting.SetButtonCurrentState(true);
@@ -293,7 +293,7 @@ void connectTestingButtonAndEventHandling() {
     testsetting.TestSampleBTN();
     testeventhandling.TimerIsOnTrigger(testsetting.GetShortPress());
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
-    // giữ lâu xem có resettimer không
+    // checking reset timer event when long press event is occur.
     testsetting.SetCount(151);
     testsetting.TestSampleBTN();
     testeventhandling.TimerResetTrigger(testsetting.GetLongPress());
