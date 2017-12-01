@@ -19,6 +19,7 @@ class TestEventHandling: public EventHandling {
     TestEventHandling():EventHandling() {}
 
     void TestTimeoutCallback();
+    void SetMenuIndex(int value);
 };
 
 #endif /*UNIT_TEST*/

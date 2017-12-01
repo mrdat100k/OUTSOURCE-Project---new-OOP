@@ -141,7 +141,7 @@ void setINAOutOfRangeValue(void) {
     /*Calling Calibrate method of test_measurement object to change max voltage value,
      *max current value, shunt resistor value.
      */
-    test_measurement.Calibrate(0.1, 3.19, 32);
+    test_measurement.Calibrate(0.016, 3.2, 32);
     /*changing voltage input value*/
     test_measurement.SetVolt(32.1);
     /*changing curent input value*/
@@ -266,6 +266,7 @@ void testEventInverter() {
 }
 void testEventTimer() {
     // test on off event timer
+    testeventhandling.SetMenuIndex(1);
     testeventhandling.TimerIsOnTrigger(true);
     TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
     testeventhandling.TimerIsOnTrigger(true);
@@ -286,13 +287,13 @@ void connectTestingButtonAndEventHandling() {
     testeventhandling.SwitchMenuTrigger(testselecting.GetShortPress());
     TEST_ASSERT(testeventhandling.GetMenuIndex() == 1);
     // checking timer sate when pressing button
-    TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
     testsetting.SetButtonLastState(false);
     testsetting.SetButtonCurrentState(true);
     testsetting.SetCount(10);
     testsetting.TestSampleBTN();
     testeventhandling.TimerIsOnTrigger(testsetting.GetShortPress());
-    TEST_ASSERT(testeventhandling.GetTimerIsOn() == false);
+    TEST_ASSERT(testeventhandling.GetTimerIsOn() == true);
     // checking reset timer event when long press event is occur.
     testsetting.SetCount(151);
     testsetting.TestSampleBTN();

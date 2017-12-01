@@ -192,3 +192,17 @@ float INAReader::GetCurr() {
 float INAReader::GetPower() {
     return power;
 }
+/** @brief: Phương thức kiểm tra ina219 đã được kết nối hay chưa (POST)
+ * bằng cách kiểm tra giá trị thanh ghi calibration trong ina219.
+ * @TODO: translate comment
+ *  @return: trả về true nếu vượt qua bài test, nếu không trả về false.
+ */
+bool INAReader::PowerOnSelfTest() {
+    bool return_value;
+    if (8192 == read_register_u16(INA219_REG_CALIBRATION)) {
+        return_value = true;
+    } else {
+        return_value = false;
+    }
+    return return_value;
+}

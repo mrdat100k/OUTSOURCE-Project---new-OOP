@@ -21,7 +21,7 @@
  * @endcode
  */
 class EventHandling {
-private:
+protected:
     int menu_index;            /**< screen selected */
     bool timer_is_on;          /**< true is turn on timer, false is turn of timer */
     bool timer_reset;          /**< timer will be reset if this varible is true */

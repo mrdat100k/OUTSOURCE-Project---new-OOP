@@ -43,7 +43,7 @@
  * @endcode
  */
 class Button : public DigitalIn {
-private:
+protected:
 /** SampleBTN input and process */
     void SampleBTN();
     Ticker _tick;

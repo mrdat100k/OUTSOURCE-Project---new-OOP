@@ -90,6 +90,8 @@ class LCDController : public Adafruit_SSD1306_I2c {
     void UpdateScreen(uint8_t screen_index);
     /*Setting timer value*/
     void SetTime(uint8_t _hour, uint8_t _minute, uint8_t _second);
+    /*Display on screen when POST*/
+    void PostDisplay(const char* data);
 
  protected:
     /**********************************

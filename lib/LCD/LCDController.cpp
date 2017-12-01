@@ -218,3 +218,7 @@ void LCDController::WriteAtPosition(uint8_t pos, const char* data) {
     printf("%s", data);
     setTextCursor(0, 0);
 }
+void LCDController::PostDisplay(const char* data) {
+    printf("%s", data);
+    display();
+}

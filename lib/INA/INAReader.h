@@ -153,6 +153,12 @@ class INAReader: private INA219{
     float GetVolt();
     float GetCurr();
     float GetPower();
+    /** @brief: Phương thức kiểm tra ina219 đã được kết nối hay chưa (POST)
+     * bằng cách kiểm tra giá trị thanh ghi calibration trong ina219.
+     * @TODO: translate comment
+     *  @return: trả về true nếu vượt qua bài test, nếu không trả về false.
+     */
+    bool PowerOnSelfTest();
 
  protected:
    /**

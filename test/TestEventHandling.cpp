@@ -15,4 +15,7 @@
 void TestEventHandling::TestTimeoutCallback() {
     TimeoutCallback();
 }
+void TestEventHandling::SetMenuIndex(int value) {
+    menu_index = value;
+}
 #endif /*UNIT_TEST*/

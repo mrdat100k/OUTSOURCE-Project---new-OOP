@@ -44,7 +44,7 @@ void Button::SampleBTN() {
         }
         count = 0;
     } else {
-        /*do nothong*/
+        /*do nothing*/
     }
 }
 // public function
