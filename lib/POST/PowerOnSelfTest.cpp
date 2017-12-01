@@ -1,9 +1,10 @@
 /******************************************************************************
  * @file    PowerOnSelfTest.cpp
  * @author   Dua Nguyen
- * @TODO: dịch cái này
- * @brief    Quản lý POST của các ngoại vi, đưa ra thông báo cho người dùng
- * qua cổng truyền nối tiếp và trả về một xâu kí tự để hiển thị trên lcd.
+ * @TODO: 
+ * @brief    this file consist of power on self test processes for peripherals.
+ * This software routines immediately after the system is powered.
+ * Giving announcements for use via serial monitor and LCD module. 
  * @date     Nov. 2017
  * @date modified 2017/11/25
  * @version 1.0.0
@@ -30,10 +31,10 @@ PowerOnSelfTest::~PowerOnSelfTest () {
     printf("Power On Self Test Passed!\n");
 }
 /** @brief: handle power on self test for ina219 (push notification)
- *  @TODO: dịch sang tiếng Anh
- *  Giá trị đầu vào (biến value) là kết quả của bài test ina219 (true or false)
- *  Tương ứng với 2 trường hợp true và false thưc hiện gửi thông báo qua serial
- *  và trả về một chuỗi kí tự để hiển thị lên lcd.
+ *  @TODO:  
+ *  input: boolean argument pass or false the ina219 test (true or false)
+ *  output: sending an announcement to serial monitor and return a string to showing on LCD 
+ *  the announcement and string are corresponding to each case.
  *  @param: value - a boolean argument pass or false the test
  *  @return: a noti string to display on lcd.
  */
@@ -52,8 +53,8 @@ bool PowerOnSelfTest::GetResult() {
 }
 /** @brief: handle power on self test for IO Expander (push notification)
  *  @param: value - a boolean argument pass or false the test
- * @TODO: tương tự như trên với thiết bị test là MCP23008
- *  @return: a noti string to display on lcd.
+ *  @TODO: creating a test with the same idea for IC MCP23008.
+ *  @return: a string to display on lcd.
  */
 const char* PowerOnSelfTest::POST_IOExpander(bool value) {
     if(true == value) {
@@ -68,7 +69,7 @@ const char* PowerOnSelfTest::POST_IOExpander(bool value) {
 /** @brief: handle power on self test for SD Card (push notification)
  *  @TODO: Tương tự với ngoại vi test là SD card
  *  @param: value - a boolean argument pass or false the test
- *  @return: a noti string to display on lcd.
+ *  @return: a string to display on lcd.
  */
 const char* PowerOnSelfTest::POST_SDCard(bool value) {
     if(true == value) {
