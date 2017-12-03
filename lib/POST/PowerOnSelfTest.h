@@ -1,9 +1,10 @@
 /******************************************************************************
  * @file    PowerOnSelfTest.h
  * @author   Dua Nguyen
- * @TODO: dịch cái này
- * @brief    Quản lý POST của các ngoại vi, đưa ra thông báo cho người dùng
- * qua cổng truyền nối tiếp và trả về một xâu kí tự để hiển thị trên lcd.
+ * @TODO:  
+ * @brief   This file consist of power on self test processes for peripherals.
+ * This software routines immediately after the system is powered.
+ * Giving announcements for use via serial monitor and LCD module. 
  * @date     Nov. 2017
  * @date modified 2017/11/25
  * @version 1.0.0
