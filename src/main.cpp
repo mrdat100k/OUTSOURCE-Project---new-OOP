@@ -2,8 +2,8 @@
  * @file    main.cpp
  * @author  Dua Nguyen
  * @brief     Functional testing: reading current value, voltage value, power value from INA module
- * time update, display content on screen, press button to go next screen, reSet timer.
- * TODO: Dịch đoạn dưới!!!
+ * time update, display content on screen, press button to go next screen, reSet timer. 
+ * TODO:  
  * @date     Oct. 2017
  * @date modified 2017/11/29
  * @version 1.0.0
@@ -80,25 +80,25 @@ EventHandling event_handling;
 
 /*initialization realtime clock object */
 RTC_Timer rtc_timer;
-/*Khai báo đối tượng ic mở rộng cổng*/
+/*initialization expanding object*/
 MCP23008 expander(I2C_SDA, I2C_SCL, 0);
-/*Khai báo đối tượng quản lý power on self test*/
+/*initialization an object to manage power on self test*/
 PowerOnSelfTest POST;
-/*Khai báo đèn led báo lỗi POST*/
+/*initialization a LED that serve for POST*/
 DigitalOut led(PB_4);
 int main() {
-    /*Test ngoại vi ina219, hiển thị kết quả test lên lcd*/
+    /*Testing ina219 module by POST, showing result on lcd*/
     lcdcontroller.PostDisplay(POST.POST_INA219(battery_measurement.PowerOnSelfTest()));
-    /*Đặt tất cả các chân của IC mở rộng cổng là output*/
+    /*setting all of expander IC pins are output*/
     expander.set_output_pins(expander.Pin_All);
-    /*Ghi ra các chân của ic mở rộng cổng một giá trị định trước*/
+    /*setting all of expander IC pins are specific value (high or low)*/
     expander.write_outputs(TEST_MCP_OUTPUT_VALUE);
-    /*Đọc lại giá trị các chân vừa ghi và so sánh với giá trị định trước*/
-    /*Hiển thị kết quả test lên lcd*/
+    /*reading back all of expander IC pins value */
+    /*showing result on LCD */
     lcdcontroller.PostDisplay(POST.POST_IOExpander(TEST_MCP_OUTPUT_VALUE == expander.read_outputs()));
-    /*Khi có bất kì một bài test nào thất bại thì hệ thống sẽ không được khởi động*/
-    /*Hệ thống treo tại vị trí này và blink một đèn led trên board để thông báo*/
-    /*Để hệ thống hoạt động cần đảm bảo các ngoại vi được kết nối đúng và reset MCU*/
+    /*the system will start if all of test are passed. in the opposite, the system doesn't start. */
+    /*if the system doesn't start. a LED will blink */
+    /*if all of modules are connected correctly the system will start after reset event.*/
     while (false == POST.GetResult()) {
         led = !led;
         wait(0.5);
