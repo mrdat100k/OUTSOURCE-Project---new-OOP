@@ -50,4 +50,12 @@ $ make build
 ```shell
 $ make all
 ```
+Running the tests
+--------------
+Demand for plugging board and running unit test. the tests will test all of function of system to ensure that
+the system works correctly. 
+the test consist of: ...
+Deployment
+--------------
+
 To be updated ...
